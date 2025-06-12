@@ -1,61 +1,66 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛍️ Sistema de Vendas - Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este é um sistema de vendas desenvolvido com Laravel.  
+Ele utiliza **PostgreSQL** como banco de dados e está pronto para ser executado localmente por qualquer pessoa com os requisitos mínimos instalados.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✅ Pré-requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Antes de rodar o projeto, certifique-se de ter os seguintes itens instalados:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🐘 PHP (8.1 ou superior)
+- Baixe em: https://windows.php.net/download
+- Ou use o [XAMPP](https://www.apachefriends.org/index.html) que já vem com PHP
 
-## Learning Laravel
+> ⚠️ Certifique-se de ativar a extensão `pdo_pgsql` no `php.ini`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📦 Composer
+- Baixe em: https://getcomposer.org/download/
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🐘 PostgreSQL
+- Baixe em: https://www.postgresql.org/download/
+- Opcional: instale o **pgAdmin** como interface gráfica
+- Crie um banco de dados com o nome: `bancoSistemaVendas`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🧬 Git
+- Baixe em: https://git-scm.com/downloads
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Rodando o projeto
 
-### Premium Partners
+Abra o terminal (CMD, PowerShell ou Git Bash) e siga os passos:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+# 1. Clonar o projeto
+git clone https://github.com/seu-usuario/sistemaVendas.git
 
-## Contributing
+# 2. Entrar na pasta
+cd sistemaVendas
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 3. Instalar as dependências PHP
+composer install
 
-## Code of Conduct
+# 4. Criar o arquivo de ambiente
+cp .env.example .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 5. Gerar a chave da aplicação
+php artisan key:generate
 
-## Security Vulnerabilities
+# 6. Abra o arquivo .env com um editor de texto e configure as credenciais do seu banco PostgreSQL:
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=bancosistemavendas
+DB_USERNAME=postgres
+DB_PASSWORD=sua_senha
+# Lembre-se: o banco bancosistemavendas precisa existir no seu PostgreSQL antes de rodar os comandos abaixo.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+#rodar migrations
+php artisan migrate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# executar
+php artisan serve
