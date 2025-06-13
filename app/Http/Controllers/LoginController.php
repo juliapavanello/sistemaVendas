@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\DAO\UserDAO;
 
 class LoginController extends Controller
@@ -12,32 +14,21 @@ class LoginController extends Controller
         return view("/user/login");
     }
 
-    public function create()
+    public function authenticate(Request $request): RedirectResponse
     {
-        return view("/user/createUsuario", ["action" => 'create']);
-    }
-    
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        //Faça o processamente dos dados no $data e envie
-        UserDAO::create($data);
-    }
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    public function edit($id)
-    {
-        return view("/user/createUsuario", ["action" => 'edit']);
-    }
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-    public function update(Request $request, $id)
-    {
-        $data = $request->all();
-        //Faça o processamente dos dados no $data e envie
-        UserDAO::updateById($id,$data);
-    }
-
-    public function delete($id)
-    {
-        UserDAO::delete($id);
+            dd(Auth::user());
+            //return redirect()->intended('produtos.index');
+        }
+        return back()->withErrors([
+            'email' => 'Credenciais erradas.',
+        ])->onlyInput('email');
     }
 }

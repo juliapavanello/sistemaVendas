@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nome');
             $table->string('email')->unique();
-            $table->integer('cpf');
+            $table->bigInteger('cpf');
             $table->boolean('bloqueio');
             $table->string('password');
             $table->rememberToken();

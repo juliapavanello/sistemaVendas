@@ -14,3 +14,5 @@ Route::resource('user',UserController::class);
 Route::resource('login',LoginController::class);
 Route::resource('caixas',ProdutoController::class);
 Route::resource('avisos',AvisoController::class);
+
+Route::post('login/auth', [LoginController::class,'authenticate'])->name('auth');
