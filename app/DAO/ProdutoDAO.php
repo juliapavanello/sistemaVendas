@@ -1,0 +1,24 @@
+<?php
+
+    namespace App\DAO;
+
+    use App\Models\Produto;
+
+    class ProdutoDAO{
+        public static function getById($id){
+            return Produto::find($id);
+        }
+        public static function getAll(){
+            return Produto::all();
+        }
+        public static function create(array $data){
+            return Produto::create($data);
+        }
+        public static function updateById($id,array $data){
+            return Produto::where("id",$id)->update($data);
+        }
+        public static function delete($id){
+            return Produto::destroy($id);
+        }
+    }
+?>
