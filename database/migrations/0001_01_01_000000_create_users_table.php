@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->bigInteger('cpf');
             $table->boolean('bloqueio');
             $table->string('password');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

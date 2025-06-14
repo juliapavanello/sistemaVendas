@@ -61,7 +61,7 @@ class UserController extends Controller
         //Validação de dados
         $data['cpf'] = (int) preg_replace('/\D/', '', $data['cpf']);
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($data, [
             'nome' => 'string|max:255',
             'email' => 'email|unique:users,email,' . $id,
             'cpf' => 'min:11|unique:users,cpf,' . $id,
@@ -75,16 +75,33 @@ class UserController extends Controller
                 ->withInput();
         }
 
-        // Armazena a foto com o nome do CPF
-        if (isset($data['foto'])) {
-            if ($data['cpf'] != UserDAO::getById($id)['cpf'])
-                Storage::disk('public')->delete('fotoUsuarios/' . UserDAO::getById($id)['foto']);
+        // Processamento da foto
+        $usuarioAtual = UserDAO::getById($id);
+        $nomeFoto = $usuarioAtual['foto'];
 
+        // Pega a posição do último ponto
+        $pos = strrpos($usuarioAtual['foto'], '.');
+
+        $extencao = '';
+        if ($pos !== false)
+            // Pega a substring a partir do último ponto
+            $extencao = substr($usuarioAtual['foto'], $pos); // inclui o ponto
+
+        if ($data['cpf'] !== $usuarioAtual['cpf'] && !empty($usuarioAtual['foto'])){
+            Storage::disk('public')->move('fotoUsuarios/' . $usuarioAtual['foto'], 'fotoUsuarios/' . $data['cpf'] . $extencao);
+            $nomeFoto = $data['cpf'] . $extencao;
+        }
+
+        if (isset($data['foto'])) {
             $nomeFoto = $data['cpf'] . "." . $request->file('foto')->getClientOriginalExtension();
+            if ($nomeFoto != $usuarioAtual['foto']){
+                Storage::disk('public')->delete('fotoUsuarios/' . $data['cpf'] . $extencao);
+            }
+
             $request->file('foto')->storeAs('fotoUsuarios', $nomeFoto, 'public');
         }
 
-        unset($data['foto']);
+        $data['foto'] = $nomeFoto;
         unset($data['_token']);
         unset($data['_method']);
         UserDAO::updateById($id, $data);
