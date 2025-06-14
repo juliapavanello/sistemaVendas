@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="{{ route('user.store') }}">
+    <form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
     @csrf
 
     <label for="nome">Nome:</label>
@@ -24,8 +24,7 @@
         <option value="true">Sim</option>
     </select>
 
-    <label for="password">Senha:</label>
-    <input type="password" id="password" name="password" value="123456" required>
+    <input type="file" name="foto">
 
     <button type="submit">Cadastrar</button>
 </form>
