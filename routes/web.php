@@ -16,3 +16,7 @@ Route::resource('caixas',ProdutoController::class);
 Route::resource('avisos',AvisoController::class);
 
 Route::post('login/auth', [LoginController::class,'authenticate'])->name('auth');
+
+Route::get('/', function () {
+    return view('produto.createProduto');
+});
