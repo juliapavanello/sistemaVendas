@@ -6,8 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('user.update',['user'=>1]) }}" enctype="multipart/form-data">
     @csrf
+    @method("put")
 
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" value="João da Silva" required>

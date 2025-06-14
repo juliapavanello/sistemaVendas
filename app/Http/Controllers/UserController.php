@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\DAO\UserDAO;
 
@@ -21,6 +22,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
         //Validação de dados
         $data['cpf'] = (int) preg_replace('/\D/', '', $data['cpf']);
 
@@ -41,8 +43,8 @@ class UserController extends Controller
         $data['password'] = $data['cpf'];
 
         // Armazena a foto com o nome do CPF
-        $nomeFoto = $data['cpf'] . '.' . $request->file('foto')->getClientOriginalExtension();
-        $request->file('foto')->storeAs('fotoUsuarios', $nomeFoto, 'public');
+        $data['foto'] = $data['cpf'] . '.' . $request->file('foto')->getClientOriginalExtension();
+        $request->file('foto')->storeAs('fotoUsuarios', $data['foto'], 'public');
 
         UserDAO::create($data);
     }
@@ -55,7 +57,36 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        //Faça o processamente dos dados no $data e envie
+
+        //Validação de dados
+        $data['cpf'] = (int) preg_replace('/\D/', '', $data['cpf']);
+
+        $validator = Validator::make($request->all(), [
+            'nome' => 'string|max:255',
+            'email' => 'email|unique:users,email,' . $id,
+            'cpf' => 'min:11|unique:users,cpf,' . $id,
+            'foto' => 'file|mimes:jpg,png,jpeg|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            dd($validator->errors());
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Armazena a foto com o nome do CPF
+        if (isset($data['foto'])) {
+            if ($data['cpf'] != UserDAO::getById($id)['cpf'])
+                Storage::disk('public')->delete('fotoUsuarios/' . UserDAO::getById($id)['foto']);
+
+            $nomeFoto = $data['cpf'] . "." . $request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->storeAs('fotoUsuarios', $nomeFoto, 'public');
+        }
+
+        unset($data['foto']);
+        unset($data['_token']);
+        unset($data['_method']);
         UserDAO::updateById($id, $data);
     }
 
