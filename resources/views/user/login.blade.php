@@ -45,7 +45,7 @@
 
         #painel {
             padding: 35px;
-            width: 27.4vw;
+            width: 410px;
             height: 510px;
             background-color: var(--cinza-claro-transparente);
             border-radius: 15px;
@@ -105,7 +105,7 @@
         }
 
         #mensagem {
-            width: 27.4vw;
+            width: 410px;
         }
 
         #msg-title {
