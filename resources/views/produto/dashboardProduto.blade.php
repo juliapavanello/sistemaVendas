@@ -1,8 +1,9 @@
-@extends('layouts.layout')
 
-@section('title', 'Dashboard produto')
+@extends("layouts/layout")
+
+@section('title','Produtos')
+@section('local','Dashboard')
 
 @section('content')
-    <h2>Página inicial</h2>
-    <p>teste layouts</p>
+
 @endsection

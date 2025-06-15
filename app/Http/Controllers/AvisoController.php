@@ -9,7 +9,7 @@ class AvisoController extends Controller
 {
     public function index()
     {
-        return view("/produto/avisosProdutos");
+        return view("/produto/avisosProduto");
     }
 
     public function store(Request $request)

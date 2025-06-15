@@ -45,9 +45,9 @@
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="caixaMenu" class="sub-menu oculto">
-                        <li><a href="caixa.dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
-                        <li><a href=""><i data-lucide="dollar-sign"></i> Retirada de caixa</a></li>
-                        <li><a href="#"><i data-lucide="file-text"></i> Relatório de caixa</a></li>
+                        <li><a href="{{ route('caixas.index') }}"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+                        <li><a href="{{ route('caixas.create') }}"><i data-lucide="dollar-sign"></i> Retirada de caixa</a></li>
+                        <li><a href="{{ route('caixas.index') }}"><i data-lucide="file-text"></i> Relatório de caixa</a></li>
                     </ul>
                 </div>
 
@@ -79,8 +79,8 @@
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="vendasMenu" class="sub-menu oculto">
-                        <li><a href="#">Histórico</a></li>
-                        <li><a href="#">Nova venda</a></li>
+                        <li><a href="{{ route('vendas.index') }}">Histórico</a></li>
+                        <li><a href="{{ route('vendas.create') }}">Nova venda</a></li>
                     </ul>
                 </div>
             </nav>
