@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends("layouts/layout")
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+@section('title','Usuário')
+@section('local','Novo usuário')
 
-<body>
-    <form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
+@section('content')
+<form method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
         @csrf
 
         <label for="nome">Nome:</label>
@@ -54,6 +50,4 @@
 
         <button type="submit">Cadastrar</button>
     </form>
-</body>
-
-</html>
+@endsection

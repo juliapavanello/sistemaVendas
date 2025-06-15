@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Projeto Faculdade')</title>
+    <title>Doces Apiúna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <div class="divBlur"></div>
 
@@ -20,11 +28,12 @@
             <nav class="menu">
                 <div class="grupo">
                     <div class="grupo-titulo toggle-menu" onclick="toggleMenu('produtosMenu')">
-                        Produtos
+                        <p>Produtos</p>
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="produtosMenu" class="sub-menu oculto">
-                        <li><a href="{{ route('produtos.index') }}"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+                        <li><a href="{{ route('produtos.index') }}"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                        </li>
                         <li><a href="{{ route('produtos.create') }}"><i data-lucide="plus"></i> Criar produto</a></li>
                         <li><a href="#"><i data-lucide="alert-triangle"></i> Avisos</a></li>
                     </ul>
@@ -32,7 +41,7 @@
 
                 <div class="grupo">
                     <div class="grupo-titulo toggle-menu" onclick="toggleMenu('caixaMenu')">
-                        Caixa
+                        <p>Caixa</p>
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="caixaMenu" class="sub-menu oculto">
@@ -44,7 +53,7 @@
 
                 <div class="grupo">
                     <div class="grupo-titulo toggle-menu" onclick="toggleMenu('pedidosMenu')">
-                        Pedidos
+                        <p>Pedidos</p>
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="pedidosMenu" class="sub-menu oculto">
@@ -55,7 +64,7 @@
 
                 <div class="grupo">
                     <div class="grupo-titulo toggle-menu" onclick="toggleMenu('usuariosMenu')">
-                        Usuários
+                        <p>Usuários</p>
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="usuariosMenu" class="sub-menu oculto">
@@ -66,7 +75,7 @@
 
                 <div class="grupo">
                     <div class="grupo-titulo toggle-menu" onclick="toggleMenu('vendasMenu')">
-                        Vendas
+                        <p>Vendas</p>
                         <i class="icone-seta" data-lucide="chevron-down"></i>
                     </div>
                     <ul id="vendasMenu" class="sub-menu oculto">
@@ -86,9 +95,16 @@
             </div>
         </aside>
 
-        <main class="conteudo">
-            @yield('content')
-        </main>
+        <div id="content-container">
+            <div id="localizador">
+                <p class="highlight">@yield('title') <span>> @yield('local')</span></p>
+            </div>
+
+            <main class="conteudo">
+                @yield('content')
+            </main>
+        </div>
+
     </div>
 
     <script>
@@ -102,4 +118,5 @@
         }
     </script>
 </body>
+
 </html>
