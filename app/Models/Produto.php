@@ -15,10 +15,10 @@ class Produto extends Model
         'custo',
         'quantidade',
         'unidade',
-        'avisoLeve',
+        'avisoLeve', 
         'avisoGrave',
-        'descontarCaixa',
-        'descontarEstoque',
-        'paraVenda',
+        'descontarCaixa', 
+        'descontarEstoque', 
+        'paraVenda', 
     ];
 }

@@ -10,11 +10,11 @@ return new class extends Migration {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('descricao');
-            $table->decimal('preco', 8, 2);
+            $table->string('descricao')->nullable();
+            $table->decimal('preco', 8, 2)->nullable();
             $table->decimal('custo', 8, 2);
             $table->integer('quantidade')->default(0);
-            $table->string('unidade');
+            $table->string('unidade')->nullable();
             $table->integer('avisoLeve')->default(0);
             $table->integer('avisoGrave')->default(0);
             $table->boolean('descontarCaixa')->default(false);
