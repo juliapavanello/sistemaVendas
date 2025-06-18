@@ -20,5 +20,8 @@
         public static function delete($id){
             return Produto::destroy($id);
         }
+        public static function atualizarEstoque($id, $quantidade){
+            return Produto::where('id', $id)->update(['quantidade'=>$quantidade]);
+        }
     }
 ?>

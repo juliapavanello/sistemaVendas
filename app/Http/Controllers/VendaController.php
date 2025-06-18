@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\DAO\UserDAO;
 use App\DAO\VendaDAO;
 
 class VendaController extends Controller
@@ -16,10 +18,28 @@ class VendaController extends Controller
     {
         return view("/venda/createVenda", ["action" => 'create']);
     }
+
     public function store(Request $request)
     {
         $data = $request->all();
-        //Faça o processamente dos dados no $data e envie
+
+        $validated = Validator::make($request->all(), [
+            'usuario_id' => 'required',
+        ]);
+
+        //tem que rever o que acontece caso envie um dado inválido quando houver a view pronta
+        if ($validated->fails()) {
+            return redirect()->back()
+                ->withErrors($validated)
+                ->withInput();
+        }
+
+        if(!UserDAO::getById($data['usuario_id'])){
+            return redirect()->back()
+            ->withErrors(['Usuário não encontrado'])
+            ->withInput();
+        }
+
         VendaDAO::create($data);
     }
 
@@ -31,7 +51,24 @@ class VendaController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        //Faça o processamente dos dados no $data e envie
+
+        $validated = Validator::make($request->all(), [
+            'usuario_id' => 'required',
+        ]);
+
+        //tem que rever o que acontece caso envie um dado inválido quando houver a view pronta
+        if ($validated->fails()) {
+            return redirect()->back()
+                ->withErrors($validated)
+                ->withInput();
+        }
+
+        if(!UserDAO::getById($data['usuario_id'])){
+            return redirect()->back()
+            ->withErrors(['Usuário não encontrado'])
+            ->withInput();
+        }
+
         VendaDAO::updateById($id,$data);
     }
 

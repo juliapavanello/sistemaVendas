@@ -45,7 +45,7 @@ class ProdutoController extends Controller
 
         if ($validated->fails()) {
             return redirect()->back()
-                ->withErrors($validator)
+                ->withErrors($validated)
                 ->withInput();
         }
 
@@ -105,5 +105,26 @@ class ProdutoController extends Controller
     public function delete($id)
     {
         ProdutoDAO::delete($id);
+    }
+
+    public function realizarVenda($idProduto, $quantidade){
+        $produto = ProdutoDAO::getById($idProduto);
+        
+        if($quantidade > $produto->quantidade){
+            return false;
+        }
+
+        $novaQuantidade = $produto->quantidade - $quantidade;
+
+        ProdutoDAO::atualizarEstoque($idProduto, $novaQuantidade);
+        return true;
+    }
+
+    public function desfazerVenda($idProduto, $quantidade){
+        $produto = ProdutoDAO::getById($idProduto);
+
+        $novaQuantidade = $produto->quantidade + $quantidade;
+
+        ProdutoDAO::atualizarEstoque($idProduto, $novaQuantidade);
     }
 }
