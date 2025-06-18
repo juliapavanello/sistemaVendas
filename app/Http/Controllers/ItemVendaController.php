@@ -79,6 +79,24 @@ class ItemVendaController extends Controller
         }
 
         //ver a verificação para o estoque
+        $itemVendaExistente = ItemVendaDAO::getById($id);
+        $quantidadeExistente = $itemVendaExistente->quantidade;
+        $novaQuantidade = $data['quantidade'];
+        $quantidadeEstoque;
+        $controllerProduto = new ProdutoController();
+
+        if($quantidadeExistente > $novaQuantidade){
+            $quantidadeEstoque = $quantidadeExistente - $novaQuantidade;
+            $controllerProduto->desfazerVenda($itemVendaExistente->produto_id, $quantidadeEstoque);
+
+        } else if($quantidadeExistente < $novaQuantidade){
+            $quantidadeEstoque = $novaQuantidade - $quantidadeExistente;
+            if(!$controllerProduto->realizarVenda($itemVendaExistente->produto_id, $quantidadeEstoque)){
+                return redirect()->back()
+                ->withErrors(['Não há estoque para essa quantidade de produto'])
+                ->withInput();
+            }
+        }
 
         ItemVendaDAO::updateById($id, $data);
     }
