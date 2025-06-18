@@ -3,6 +3,7 @@
     namespace App\DAO;
 
     use App\Models\Caixa;
+    use Illuminate\Support\Carbon;
 
     class CaixaDAO{
         public static function getById($id){
@@ -19,6 +20,10 @@
         }
         public static function delete($id){
             return Caixa::destroy($id);
+        }
+
+        public static function getLast30Days(){
+            return Caixa::where('created_at', '>=', Carbon::now()->subDays(30))->get();
         }
     }
 ?>
