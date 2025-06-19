@@ -1,11 +1,10 @@
-
 @extends("layouts/layout")
 
-@section('title','Produtos')
-@section('local','Dashboard')
+@section('title', 'Produtos')
+@section('local', 'Dashboard')
 @section('head')
 
-<link rel="stylesheet" href="{{ asset('css/lista.css?v=' . localtime()[0]) }}">
+    <link rel="stylesheet" href="{{ asset('css/lista.css?v=' . localtime()[0]) }}">
 
     <style>
         :root {
@@ -25,6 +24,7 @@
             /* Cores auxiliares */
             --verde: #338543;
             --vermelho: #832F30;
+            --amarelo: #C9A31F;
 
             /* Cores de texto e fundo */
             --branco: #FFFFFF;
@@ -33,86 +33,87 @@
             --preto: #000000;
         }
 
-.aviso-box {
-    background-color: var(--cinza-escuro-transparente);
-    border-radius: 15px;
-    padding: 20px;
-    color: white;
-    width: 290px;
-    
-}
+        .aviso-box {
+            background-color: var(--cinza-escuro-transparente);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            width: 290px;
 
-.aviso-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        }
 
-.aviso-header h3 {
-    margin: 0;
-    font-weight: bold;
-    font-size: 20px;
-}
+        .aviso-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.ver-todos {
-    font-size: 15px;
-    text-decoration: none;
-    color: var(--branco);
+        .aviso-header h3 {
+            margin: 0;
+            font-weight: bold;
+            font-size: 20px;
+        }
 
-}
+        .ver-todos {
+            font-size: 15px;
+            text-decoration: none;
+            color: var(--branco);
 
-.lista-avisos {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        }
 
-.lista-avisos li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 10px;
-}
+        .lista-avisos {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-svg {
-    margin-right: 10px;
-}
-.texto-aviso p {
-    margin: 0;
-    font-size: 11px;
-    line-height: 1.1;
-}
+        .lista-avisos li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
 
-.texto-aviso small {
-    display: block;
-    margin-top: 2px; 
-    font-size: 8px;
-    color:var(--cinza-item-desativado);
-}
+        svg {
+            margin-right: 10px;
+        }
 
-.produto.rosa {
-    color: var(--rosa);
-    font-weight: 500;
-}
+        .texto-aviso p {
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.1;
+        }
 
-.btn-criar {
-    background-color: var(--cinza-escuro-transparente);
-    color: var(--branco);
-    font-size: 20px;
-    font-weight: bold;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 10px;
-    width: 290px;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+        .texto-aviso small {
+            display: block;
+            margin-top: 2px;
+            font-size: 8px;
+            color: var(--cinza-item-desativado);
+        }
 
-.btn-criar:hover {
-    background-color: var(--cinza-escuro-detalhes); /* ou outro hover */
-}
+        .produto.rosa {
+            color: var(--rosa);
+            font-weight: 500;
+        }
 
+        .btn-criar {
+            background-color: var(--cinza-escuro-transparente);
+            color: var(--branco);
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            width: 290px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-criar:hover {
+            background-color: var(--cinza-escuro-detalhes);
+            /* ou outro hover */
+        }
     </style>
 @endsection
 
@@ -193,7 +194,7 @@ svg {
                     <!--icones deletar e excluir-->
                 </div>
             </div>
-             <div class="items-lista">
+            <div class="items-lista">
                 <div class="item-lista" style="padding: 15px 20px">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Farinha Marigold</p>
@@ -291,7 +292,7 @@ svg {
                                 fill="white" />
                         </svg>
                     </div>
-                </div> 
+                </div>
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Farinha Marigold</p>
@@ -340,7 +341,7 @@ svg {
                                 fill="white" />
                         </svg>
                     </div>
-                </div> 
+                </div>
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Farinha Marigold</p>
@@ -389,7 +390,7 @@ svg {
                                 fill="white" />
                         </svg>
                     </div>
-                </div> 
+                </div>
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Farinha Marigold</p>
@@ -438,7 +439,7 @@ svg {
                                 fill="white" />
                         </svg>
                     </div>
-                </div> 
+                </div>
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Farinha Marigold</p>
@@ -487,7 +488,7 @@ svg {
                                 fill="white" />
                         </svg>
                     </div>
-                </div> 
+                </div>
 
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
@@ -539,7 +540,7 @@ svg {
                     </div>
                 </div>
 
-</div>
+            </div>
 
             <div class="container-paginas">
                 <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -548,12 +549,12 @@ svg {
                 </svg>
 
                 <div class="paginas">
-                    <div class="pg">1</div>    
+                    <div class="pg">1</div>
                     <div class="pg pg-ativa">2</div>
-                    <div class="pg">3</div>    
+                    <div class="pg">3</div>
                     <div class="pg">4</div>
-                    <div class="pg">5</div>    
-                    <div class="pg">...  10</div>
+                    <div class="pg">5</div>
+                    <div class="pg">... 10</div>
                 </div>
 
                 <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -565,105 +566,126 @@ svg {
 
         <div class="side-container">
             <div class="aviso-box">
-    <div class="aviso-header">
-        <h3>Avisos</h3>
-        <a href="{{ route('avisos.index') }}" class="ver-todos"><span class="highlight">Ver todos</span></a>
-        
-    </div>
+                <div class="aviso-header">
+                    <h3>Avisos</h3>
+                    <a href="{{ route('avisos.index') }}" class="ver-todos"><span class="highlight">Ver todos</span></a>
 
-    <ul class="lista-avisos">
-        <li>
-            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                </div>
 
-            <div class="texto-aviso">
-                <p><span class="produto rosa">Farinha Marigold</span> está com estoque baixo.</p>
-                <small>08/06/2025</small>
+                <ul class="lista-avisos">
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#C9A31F" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p><span class="produto rosa">Farinha Marigold</span> está com estoque baixo.</p>
+                            <small>08/06/2025</small>
+                        </div>
+                    </li>
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#338543" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#338543" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#338543" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p><span class="produto rosa">Maçã</span> está perto de um estoque baixo.</p>
+                            <small>08/06/2025</small>
+                        </div>
+                    </li>
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#832F30" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#832F30" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#832F30" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p>O estoque de <span class="produto rosa">Açúcar Regulus</span> foi esgotado!</p>
+                            <small>08/06/2025</small>
+                        </div>
+                    </li>
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#338543" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#338543" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#338543" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p><span class="produto rosa">Farinha Marigold</span> está perto de um estoque baixo.</p>
+                            <small>05/06/2025</small>
+                        </div>
+                    </li>
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#C9A31F" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p><span class="produto rosa">Coca-Cola Zero</span> está com estoque baixo.</p>
+                            <small>03/06/2025</small>
+                        </div>
+                    </li>
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#832F30" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#832F30" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#832F30" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p>O estoque de <span class="produto rosa">Autoestima</span> foi esgotado!</p>
+                            <small>02/06/2025</small>
+                        </div>
+                    </li>
+                    <li>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z"
+                                stroke="#832F30" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 7.875V11.375" stroke="#832F30" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M10.5 14.8837L10.5087 14.874" stroke="#832F30" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        <div class="texto-aviso">
+                            <p>O estoque de <span class="produto rosa">Inspiração</span> foi esgotado!</p>
+                            <small>01/06/2025</small>
+                        </div>
+                    </li>
+                </ul>
+
             </div>
-        </li>
-        <li>
-            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#338543" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#338543" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#338543" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-            <div class="texto-aviso">
-                <p><span class="produto rosa">Maçã</span> está perto de um estoque baixo.</p>
-                <small>08/06/2025</small>
+            <div class="botao-criar">
+                <button class="btn-criar" onclick="window.location='{{ route('produtos.create') }}'">
+                    Criar novo
+                </button>
             </div>
-        </li>
-        <li>
-            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#832F30" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#832F30" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#832F30" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-            <div class="texto-aviso">
-                <p>O estoque de <span class="produto rosa">Açúcar Regulus</span> foi esgotado!</p>
-                <small>08/06/2025</small>
-            </div>
-        </li>
-        <li>
-            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#338543" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#338543" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#338543" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-            <div class="texto-aviso">
-                <p><span class="produto rosa">Farinha Marigold</span> está perto de um estoque baixo.</p>
-                <small>05/06/2025</small>
-            </div>
-        </li>
-        <li>
-     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#C9A31F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-            <div class="texto-aviso">
-                <p><span class="produto rosa">Coca-Cola Zero</span> está com estoque baixo.</p>
-                <small>03/06/2025</small>
-            </div>
-        </li>
-        <li>
-            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#832F30" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#832F30" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#832F30" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-            <div class="texto-aviso">
-                <p>O estoque de <span class="produto rosa">Autoestima</span> foi esgotado!</p>
-                <small>02/06/2025</small>
-            </div>
-        </li>
-        <li>
-            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17.5374 18.375H3.46231C2.11654 18.375 1.2744 16.9194 1.94523 15.7527L8.98282 3.51342C9.65569 2.34319 11.3441 2.34318 12.017 3.51341L19.0546 15.7527C19.7254 16.9194 18.8833 18.375 17.5374 18.375Z" stroke="#832F30" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 7.875V11.375" stroke="#832F30" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M10.5 14.8837L10.5087 14.874" stroke="#832F30" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-            <div class="texto-aviso">
-                <p>O estoque de <span class="produto rosa">Inspiração</span> foi esgotado!</p>
-                <small>01/06/2025</small>
-            </div>
-        </li>
-    </ul>
-
-</div>
-<div class="botao-criar">
-    <button class="btn-criar" onclick="window.location='{{ route('produtos.create') }}'">
-        Criar novo
-    </button>
-</div>
 
 
         </div>

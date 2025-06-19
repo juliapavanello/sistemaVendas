@@ -130,13 +130,17 @@ textarea {
     gap: 20px;
 }
 
-.linha-campos > div {
+.linha-campos>div {
     flex: 1;
     display: flex;
     flex-direction: column
 }
 
-#nome, #descricao, .quantidade input, .unidade input, .linha-campos input {
+#nome,
+#descricao,
+.quantidade input,
+.unidade input,
+.linha-campos input {
     width: 100%;
 }
 
@@ -148,21 +152,23 @@ textarea {
     width: 100%;
 }
 
-.cancelar{
+.cancelar {
     font-size: 14px;
     background: transparent;
     border: none;
     color: var(--branco);
     cursor: pointer;
 }
+
 .voltar {
-font-size: 14px;
-    background: var(--cinza-escuro); /*achei que ficou escuro demais*/
+    font-size: 14px;
+    background: var(--cinza-escuro);
+    /*achei que ficou escuro demais*/
     border: none;
     color: var(--branco);
     cursor: pointer;
-     padding: 10px 20px;
-      border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
 }
 
 .continuar {
@@ -178,13 +184,15 @@ font-size: 14px;
 
 
 .continuar:hover {
-    background: #ff00aa; /*colocar outra cor*/
+    background: #ff00aa;
+    /*colocar outra cor*/
 }
 
 .continuar svg {
     vertical-align: middle;
 }
-.config{
+
+.config {
     margin-top: 30px;
 }
 
@@ -198,6 +206,7 @@ small {
     font-size: 10px;
     color: var(--rosa);
 }
+
 /* Etapa 3: Alerta */
 .alerta-item {
 
@@ -235,7 +244,7 @@ small {
     margin-right: 3px;
 }
 
-.checkbox-container input[type="checkbox"]:checked + .checkmark::after {
+.checkbox-container input[type="checkbox"]:checked+.checkmark::after {
     content: "";
     position: absolute;
     left: 3px;
@@ -264,4 +273,3 @@ small {
 .amarelo {
     color: var(--amarelo);
 }
-
