@@ -169,7 +169,6 @@
                         </svg>
                     </div>
                 </div>
-
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Renovação de estoque</p>
@@ -219,7 +218,6 @@
                         </svg>
                     </div>
                 </div>
-
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Renovação de estoque</p>
@@ -269,7 +267,6 @@
                         </svg>
                     </div>
                 </div>
-
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Renovação de estoque</p>
@@ -319,7 +316,6 @@
                         </svg>
                     </div>
                 </div>
-
                 <div class="item-lista">
                     <div class="campo" style="width: 21%; text-align: start;">
                         <p>Renovação de estoque</p>
