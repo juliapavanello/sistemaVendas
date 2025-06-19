@@ -60,7 +60,7 @@
     justify-content: space-between;
     background-color: var(--cinza-claro-transparente);
     font-size: 15px;
-    padding: 15px 20px;
+    padding: 15px 20px; 
     border-radius: 15px;
 }
 
