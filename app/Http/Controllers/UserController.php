@@ -20,7 +20,7 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {;
         $data = $request->all();
 
         //Validação de dados
@@ -30,10 +30,12 @@ class UserController extends Controller
             'nome' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'cpf' => 'required|min:11|unique:users,cpf',
-            'foto' => 'required|file|mimes:jpg,png,jpeg|max:2048'
+            'foto' => 'required|file|mimes:jpg,png,jpeg',
+            'tipo' => 'required'
         ]);
 
         if ($validator->fails()) {
+            dd(''. $validator->errors());
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
@@ -47,6 +49,8 @@ class UserController extends Controller
         $request->file('foto')->storeAs('fotoUsuarios', $data['foto'], 'public');
 
         UserDAO::create($data);
+
+        return redirect()->route('user.index');
     }
 
     public function edit($id)
@@ -65,7 +69,8 @@ class UserController extends Controller
             'nome' => 'string|max:255',
             'email' => 'email|unique:users,email,' . $id,
             'cpf' => 'min:11|unique:users,cpf,' . $id,
-            'foto' => 'file|mimes:jpg,png,jpeg|max:2048'
+            'foto' => 'file|mimes:jpg,png,jpeg|max:2048',
+            'tipo' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -107,7 +112,7 @@ class UserController extends Controller
         UserDAO::updateById($id, $data);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         UserDAO::delete($id);
     }
