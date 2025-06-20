@@ -15,8 +15,8 @@
                     <p class="dados">Dados do produto</p>
                     <p class="descricao">adicione os dados do seu produto</p>
                 </div>
-
             </div>
+            <div class="etapa-caminho"></div>
             <div class="etapa" data-step="2">
                 <div class="numero">2</div>
                 <div class="info">
@@ -24,6 +24,7 @@
                     <p class="descricao">defina os preços e opções de venda</p>
                 </div>
             </div>
+            <div class="etapa-caminho"></div>
             <div class="etapa" data-step="3">
                 <div class="numero">3</div>
                 <div class="info">
@@ -38,7 +39,7 @@
             <div class="etapa-formulario" id="etapa-1">
                 <h3>Informações do produto</h3>
 
-                <label for="nome">Nome do produto</label>
+                <label for="nome">Nome do produto<span class="obrigatorio">*</span></label>
                 <input type="text" id="nome" placeholder="">
 
                 <label for="descricao">Descrição do produto</label>
@@ -50,14 +51,12 @@
                         <input type="number" id="quantidade">
                     </div>
                     <div class="unidade">
-                        <label for="unidade">Unidade de medida</label>
+                        <label for="unidade">Unidade de medida<span class="obrigatorio">*</span></label>
                         <input type="text" id="unidade">
                     </div>
                 </div>
 
                 <div class="botoes">
-
-
                     <button class="cancelar" onclick="window.location='{{ route('produtos.index') }}'"><span
                             class="highlight">Cancelar</span></button>
                     <button class="continuar" onclick="mudarEtapa(2)">Continuar <svg width="15" height="15"
@@ -90,9 +89,24 @@
 
                 <h3 class="config">Configurações de venda e compra</h3>
                 <div class="checkbox-group">
-                    <p><input type="checkbox"> Descontar do caixa ao adicionar estoque</p> <!-- trocar checkbox -->
-                    <p><input type="checkbox"> Aberto há venda</p>
-                    <p><input type="checkbox"> Descontar do estoque na venda</p>
+                    <div class="checkbox-item">
+                        <div class="switch">
+                            <div class="bola"></div>
+                        </div>
+                        <p> Descontar do caixa ao adicionar estoque</p>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="switch">
+                            <div class="bola"></div>
+                        </div>
+                        <p> Aberto há venda</p>
+                    </div>
+                    <div class="checkbox-item">
+                        <div class="switch">
+                            <div class="bola"></div>
+                        </div>
+                        <p>Descontar do estoque na venda</p>
+                    </div>   
                 </div>
 
                 <div class="botoes">
@@ -114,9 +128,12 @@
                 <h3>Configurações de avisos</h3>
 
                 <label class="switch-label">
-                    <input type="checkbox" id="habilitar-alertas">
-                    <span class="switch"></span>
-                    Habilitar avisos nesse produto
+                    <div class="checkbox-item">
+                        <div class="switch">
+                            <div class="bola"></div>
+                        </div>
+                        <p>Habilitar avisos nesse produto</p>
+                    </div>   
                 </label>
 
                 <div class="alerta-item">
@@ -154,12 +171,29 @@
     </div>
 
     <script>
+        let switchs = document.querySelectorAll(".switch");
+        switchs.forEach(element => {
+            let bola = element.querySelector(".bola")
+            element.addEventListener("click", () => {
+                if (bola.classList.length == 1) {
+                    bola.classList = "bola input-ativo"
+                } else {
+                    bola.classList = "bola"
+                }
+            })
+        });
+
+
         function mudarEtapa(numero) {
             document.querySelectorAll('.etapa-formulario').forEach(e => e.style.display = 'none');
             document.getElementById('etapa-' + numero).style.display = 'block';
 
             document.querySelectorAll('.etapas .etapa').forEach((etapa, index) => {
                 etapa.classList.toggle('ativa', index + 1 <= numero);
+            });
+
+            document.querySelectorAll('.etapas .etapa-caminho').forEach((etapa, index) => {
+                etapa.classList.toggle('ativa', index + 1 <= numero-1);
             });
         }
     </script>
