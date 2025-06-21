@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\DAO\UserDAO;
+use Illuminate\Support\Facades\Storage;
 
 class UserCard extends Component
 {
@@ -23,6 +24,7 @@ class UserCard extends Component
 
     public function destroy()
     {
+        Storage::disk('public')->delete('fotoUsuarios/'. $this->user->foto);
         UserDAO::delete($this->user->id);
         // Emite para o componente pai que o usuário foi deletado
         $this->dispatch('userDeleted', ['userId' => $this->user->id]);

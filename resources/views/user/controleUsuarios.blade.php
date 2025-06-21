@@ -177,6 +177,10 @@
     @livewire("userlist")
 
     <script>
+        setInterval(() => {
+            Livewire.dispatch('refreshComponent');
+        }, 100);
+
         let switchs = document.querySelectorAll(".switch");
         switchs.forEach(element => {
             let bola = element.querySelector(".bola")
@@ -199,7 +203,7 @@
                 user.querySelector(".subtipo").style.display = "block"
             }
 
-            user.querySelector(".subtipo").addEventListener("change",()=>{
+            user.querySelector(".subtipo").addEventListener("change", () => {
                 Livewire.dispatch('updateTipo', { data: [user.id, user.querySelector(".subtipo").value] })
             })
 
@@ -218,7 +222,7 @@
                         let container = col.querySelector(".users-container")
                         container.appendChild(selected)
 
-                        
+
                         switch (col) {
                             case colunas[0]:
                                 Livewire.dispatch('updateTipo', { data: [selected.id, "Admin"] })
@@ -228,7 +232,7 @@
                                 break;
                             case colunas[2]:
                                 console.log(selected.querySelector(".subtipo").value);
-                                
+
                                 Livewire.dispatch('updateTipo', { data: [selected.id, selected.querySelector(".subtipo").value] })
                                 break;
                         }

@@ -22,6 +22,8 @@ class UserList extends Component
     public function userDeleted($userId)
     {
         // Remove o usuário da lista (memória)
-        $this->users = $this->users->filter(fn($user) => $user->id != $userId);
+        $this->users = $this->users->filter(fn($user) => $user->id != $userId['userId']);
+        sleep(0.5);
+        $this->dispatch('$refresh');
     }
 }
