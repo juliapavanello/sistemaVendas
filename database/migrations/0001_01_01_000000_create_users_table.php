@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('nome');
             $table->string('email')->unique();
             $table->bigInteger('cpf');
-            $table->boolean('bloqueio');
+            $table->boolean('bloqueio')->default(false);
             $table->string('password');
             $table->string('tipo');
             $table->string('foto')->nullable();

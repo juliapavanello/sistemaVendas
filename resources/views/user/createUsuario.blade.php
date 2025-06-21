@@ -38,6 +38,7 @@
             width: 200px;
             aspect-ratio: 1/1;
             cursor: pointer;
+            background-color: var(--vinho);
         }
 
         .col-img img {
@@ -115,74 +116,79 @@
         </div>
 
         <div class="formulario">
-            <h3>Informações do usuário</h3>
-            <div class="etapa-formulario" id="etapa-1">
-                <div class="label">
-                    <label class="col-img" for="img">
-                        <div class="col-img">
-                            <img src="{{ Storage::url('fotoUsuarios/user2.png') }}" alt="">
+            <form action="{{ route("user.store") }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <h3>Informações do usuário</h3>
+                <div class="etapa-formulario" id="etapa-1">
+                    <div class="label">
+                        <label class="col-img" for="img">
+                            <div class="col-img">
+                                <img src="{{ Storage::url('fotoUsuarios/user2.png') }}" alt="">
+                            </div>
+                        </label>
+                        <input type="file" id="img" name="foto" style="display: none;" accept="image/png, image/jpeg">
+                        <p style="text-align: center;">Foto de usuário</p>
+                    </div>
+
+                    <div class="col-dados" style="width: 50%;">
+                        <label for="nome">Nome do produto<span class="obrigatorio">*</span></label>
+                        <input type="text" id="nome" name="nome" placeholder="Insira o nome do usuário">
+
+                        <label for="email">E-mail<span class="obrigatorio">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="Insira o email do usuário"
+                            style="width: 100%;">
+
+                        <div class="linha-campos">
+                            <div class="cpf">
+                                <label for="cpf">CPF<span class="obrigatorio">*</span></label>
+                                <input type="text" id="cpf" name="cpf" placeholder="Insira o CPF">
+                            </div>
+                            <div class="tipoUser">
+                                <label for="tipo">Tipo de usuário<span class="obrigatorio">*</span></label>
+                                <select name="tipo" id="tipo" name="tipo">
+                                    <option value="Admin">Admin</option>
+                                    <option value="Barraca">Barraca</option>
+                                    <option value="Produção">Produção</option>
+                                </select>
+                            </div>
                         </div>
-                    </label>
-                    <input type="file" id="img" style="display: none;">
-                    <p style="text-align: center;">Foto de usuário</p>
+
+                        <label id="radio-label" style="display: none">Sub-tipo</label>
+                        <div class="radio">
+                            <label for="geral">
+                                <input type="radio" name="subtipo" id="geral" value="Geral">
+                                <span class="checkmark"></span>
+                                Geral
+                            </label>
+
+                            <label for="kreep">
+                                <input type="radio" name="subtipo" id="kreep" value="kreep">
+                                <span class="checkmark"></span>
+                                Kreep
+                            </label>
+
+                            <label for="fondue">
+                                <input type="radio" name="subtipo" id="fondue" value="fondue">
+                                <span class="checkmark"></span>
+                                Fondue
+                            </label>
+                        </div>
+
+                        <div class="botoes">
+                            <button class="cancelar" onclick="window.location='{{ route('user.index') }}'"><span
+                                    class="highlight">Cancelar</span></button>
+                            <button class="continuar" type="submit">
+                                Salvar
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.6663 5L7.49967 14.1667L3.33301 10" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-dados" style="width: 50%;">
-                    <label for="nome">Nome do produto<span class="obrigatorio">*</span></label>
-                    <input type="text" id="nome" placeholder="Insira o nome do usuário">
-
-                    <label for="email">E-mail<span class="obrigatorio">*</span></label>
-                    <input type="email" id="email" placeholder="Insira o email do usuário" style="width: 100%;">
-
-                    <div class="linha-campos">
-                        <div class="cpf">
-                            <label for="cpf">CPF<span class="obrigatorio">*</span></label>
-                            <input type="text" id="cpf" placeholder="Insira o CPF">
-                        </div>
-                        <div class="tipoUser">
-                            <label for="tipo">Tipo de usuário<span class="obrigatorio">*</span></label>
-                            <select name="tipo" id="tipo">
-                                <option value="Admin">Admin</option>
-                                <option value="Barraca">Barraca</option>
-                                <option value="Produção">Produção</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <label id="radio-label" style="display: none">Sub-tipo</label>
-                    <div class="radio">
-                        <label for="geral">
-                            <input type="radio" name="subtipo" id="geral" value="geral">
-                            <span class="checkmark"></span>
-                            Geral
-                        </label>
-
-                        <label for="kreep">
-                            <input type="radio" name="subtipo" id="kreep" value="kreep">
-                            <span class="checkmark"></span>
-                            Kreep
-                        </label>
-
-                        <label for="fondue">
-                            <input type="radio" name="subtipo" id="fondue" value="fondue">
-                            <span class="checkmark"></span>
-                            Fondue
-                        </label>
-                    </div>
-
-                    <div class="botoes">
-                        <button class="cancelar" onclick="window.location='{{ route('user.index') }}'"><span
-                                class="highlight">Cancelar</span></button>
-                        <button class="continuar">
-                            Salvar
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16.6663 5L7.49967 14.1667L3.33301 10" stroke="white" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -222,5 +228,15 @@
                 etapa.classList.toggle('ativa', index + 1 <= numero - 1);
             });
         }
+
+        //Preview foto
+        document.getElementById('img').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const imgElement = document.querySelector('label[for="img"] img');
+                imgElement.src = URL.createObjectURL(file);
+            }
+        });
+
     </script>
 @endsection

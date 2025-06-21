@@ -20,7 +20,7 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {;
+    {
         $data = $request->all();
 
         //Validação de dados
@@ -47,6 +47,11 @@ class UserController extends Controller
         // Armazena a foto com o nome do CPF
         $data['foto'] = $data['cpf'] . '.' . $request->file('foto')->getClientOriginalExtension();
         $request->file('foto')->storeAs('fotoUsuarios', $data['foto'], 'public');
+
+        //Verifica se é usuário de produção e se sim qual deve ele é
+        if($data['tipo'] == "Produção"){
+            $data["tipo"] = $data["subtipo"];
+        }
 
         UserDAO::create($data);
 
