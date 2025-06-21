@@ -256,12 +256,13 @@ textarea {
     gap: 10px;
 }
 
-.checkbox-item{
+.checkbox-item {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.checkbox-item p{
+
+.checkbox-item p {
     transform: translateY(1px);
 }
 
@@ -335,4 +336,20 @@ small {
 
 .amarelo {
     color: var(--amarelo);
+}
+
+/*Outras coisas*/
+select {
+    color: var(--branco);
+    background-color: var(--cinza-escuro);
+    border: 1px solid var(--cinza-escuro);
+    border-radius: 5px;
+    padding: 9px 15px;
+    font-size: 15px;
+    transform: translateY(-3px);
+    margin-left: auto;
+}
+
+select:focus {
+    outline: none;
 }
