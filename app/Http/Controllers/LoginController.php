@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\DAO\UserDAO;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -23,9 +24,9 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            Session::put('user', UserDAO::getByEmail($request->email));
 
-            dd(Auth::user());
-            //return redirect()->intended('produtos.index');
+            return redirect()->intended('produtos');
         }
         return back()->withErrors([
             'email' => 'Credenciais erradas.',

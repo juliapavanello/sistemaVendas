@@ -26,5 +26,9 @@ class UserDAO
     {
         return User::destroy($id);
     }
+
+    public static function getByEmail($email){
+        return User::where("email", $email)->first();
+    }
 }
 ?>
