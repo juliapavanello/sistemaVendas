@@ -52,7 +52,7 @@
 
                     <label for="descricao">Motivo de retirada</label>
                     <textarea id="descricao" name="motivo"
-                        placeholder="Insira o motivo da retirada de caixa">@if($action == 'edit') {{ $caixa->dinheiro }} @endif</textarea>
+                        placeholder="Insira o motivo da retirada de caixa">@if($action == 'edit') {{ $caixa->motivo }} @endif</textarea>
 
                     <div class="botoes">
                         <button class="cancelar" type="button" onclick="window.location='{{ route('caixas.index') }}'">

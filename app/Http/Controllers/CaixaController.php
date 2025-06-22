@@ -11,7 +11,15 @@ class CaixaController extends Controller
 {
     public function index()
     {
-        return view("/caixa/dashboardCaixa");
+        $caixas = CaixaDAO::getAll();
+        $usuarios = [];
+        foreach ($caixas as $caixa) {
+            $usuarios[$caixa->id] = UserDAO::getById($caixa->usuario_id);
+        }
+
+        $entrada30 = $this->calcularUltimos30Dias("Entrada");
+        $saida30 = $this->calcularUltimos30Dias("Saída");
+        return view("/caixa/dashboardCaixa", compact("caixas",'usuarios','entrada30','saida30'));
     }
 
     public function create()
@@ -91,12 +99,14 @@ class CaixaController extends Controller
         CaixaDAO::updateById($id,$data);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         CaixaDAO::delete($id);
+
+        return redirect()->back();
     }
 
-    public function calcularUltimos30Dias($tipo){
+    public function calcularUltimos30Dias($tipo): float|int{
         $caixas = CaixaDAO::getLast30Days();
 
         $resultado = 0;
