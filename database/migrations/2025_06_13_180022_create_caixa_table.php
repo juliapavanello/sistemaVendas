@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('fonte');
             $table->enum('tipo', ['Entrada', 'Saída']);
             $table->decimal('dinheiro', 8, 2)->default(0);
+            $table->text('motivo')->nullable();
             $table->timestamps();
             
             $table->unsignedBigInteger('usuario_id')->nullable();

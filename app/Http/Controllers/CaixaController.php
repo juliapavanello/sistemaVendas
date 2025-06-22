@@ -21,15 +21,26 @@ class CaixaController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
+        $negativo = str_contains($data['dinheiro'],'-');
         $valor = preg_replace('/[^0-9.,]/', '', $data['dinheiro']);
         $valor = str_replace('.', '', $valor);
-        $data['dinheiro'] = str_replace(',', '.', $valor);
+        $data['dinheiro'] = (double) str_replace(',', '.', $valor);
+
+        //Descobre se é entrada ou saída.
+        if($negativo){
+            $data['tipo'] = "Entrada";
+        }else{
+            $data['tipo'] = "Saída";
+        }
+
+        //Define a fonte como retirada a mão
+        $data['fonte'] = $negativo ? "Entrada a mão" : "Retirada a mão";
+
+        //Define o usuário logado como responsável
+        $data['usuario_id'] = session('user')->id;
 
         $validator = Validator::make($request->all(), [
-            'dinheiro' => 'required',
-            'tipo' => 'required|in:Entrada,Saída',
-            'usuario_id' => 'required'
+            'dinheiro' => 'required|not_in:0',
         ]);
 
         if ($validator->fails()) {
@@ -38,19 +49,16 @@ class CaixaController extends Controller
                 ->withInput();
         }
 
-        if(!UserDAO::getById($data['usuario_id'])){
-            return redirect()->back()
-            ->withErrors(['Usuário não encontrado'])
-            ->withInput();
-        }
-
         //ver como funciona com a venda ou produto
         CaixaDAO::create($data);
+
+        return redirect()->route('caixas.index');
     }
 
     public function edit($id)
     {
-        return view("/caixa/retiradaCaixa", ["action" => 'edit']);
+        $caixa = CaixaDAO::getById($id);
+        return view("/caixa/retiradaCaixa", ["action" => 'edit','caixa'=> $caixa]);
     }
 
     public function update(Request $request, $id)

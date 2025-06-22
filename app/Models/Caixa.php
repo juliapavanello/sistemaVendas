@@ -12,6 +12,7 @@ class Caixa extends Model
         'fonte',
         'tipo',
         'dinheiro',
+        'motivo',
         'usuario_id',
         'venda_id',
         'produto_id'

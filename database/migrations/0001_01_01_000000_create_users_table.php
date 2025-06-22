@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration {
     /**
@@ -37,6 +39,19 @@ return new class extends Migration {
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        DB::table('users')->insert([
+            'nome' => 'Admin Master',
+            'email' => 'admin@site.com',
+            'cpf' => 12345678900, // Coloque um CPF válido se for necessário
+            'bloqueio' => false,
+            'password' => Hash::make('12345678900'), // Senha segura
+            'tipo' => 'Admin',
+            'foto' => null,
+            'remember_token' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

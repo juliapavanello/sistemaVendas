@@ -1,7 +1,7 @@
 <div class="user-card" draggable="true" id="{{ $user->id }}">
     <div class="user-top">
         <div class="user-img">
-            <img draggable="false" src="{{  Storage::url('fotoUsuarios/' . $user->foto) }}" alt="foto usuário">
+            <img draggable="false" src="{{  $user->foto ? Storage::url('fotoUsuarios/' . $user->foto) : Storage::url('fotoUsuarios/user2.png') }}" alt="foto usuário">
         </div>
         <div class="user-info">
             <p style="font-size: 16px; font-weight: 500; color: var(--branco)">{{ $user->nome }}</p>
