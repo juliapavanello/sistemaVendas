@@ -118,10 +118,9 @@
                     <!--icones deletar e excluir-->
                 </div>
             </div>
-
-            <div class="items-lista">
+            <div class="items-lista {{ $i=1 }}">
                 @foreach($caixas as $item)
-                    <div class="item-lista">
+                    <div class="item-lista pg-{{ ceil(($i++)/$qtdPorPg) }}" @if($item->id >= $caixas[$qtdPorPg]->id) style="display: none" @endif>
                         <div class="campo" style="width: 21%; text-align: start;">
                             <p>{{ $item->fonte }}</p>
                         </div>
@@ -183,21 +182,23 @@
             </div>
 
             <div class="container-paginas">
-                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg id="anterior" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13 4.16659L7.16667 9.99992L13 15.8333" stroke="white" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
                 </svg>
-
                 <div class="paginas">
-                    <div class="pg">1</div>
-                    <div class="pg pg-ativa">2</div>
-                    <div class="pg">3</div>
-                    <div class="pg">4</div>
-                    <div class="pg">5</div>
-                    <div class="pg">... 10</div>
+                    @if(ceil($caixas->count()/$qtdPorPg) > 5)
+                        <div class="pg" id="goStart" style="display: none;">1 ...</div>  
+                    @endif
+                    @for ($i = 0; $i < ceil($caixas->count()/$qtdPorPg); $i++)
+                        <div class="pg @if($i == 0)pg-ativa @endif" @if($i > 4) style="display: none" @endif>{{ $i+1 }}</div>   
+                    @endfor
+                    @if(ceil($caixas->count()/$qtdPorPg) > 5)
+                        <div class="pg" id="goEnd">... {{ ceil($caixas->count()/$qtdPorPg) }}</div>  
+                    @endif
                 </div>
 
-                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg id="proximo" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 4.16659L13.8333 9.99992L8 15.8333" stroke="white" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
                 </svg>
@@ -239,4 +240,99 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let items = document.getElementsByClassName("item-lista");
+        let botoesPg = Array.from(document.getElementsByClassName("pg"));
+        let maxPg = Math.ceil((items.length - 1) / {{ $qtdPorPg }});
+        let pgAtual = 1;
+
+        //Retira os botões de teleporte pro fim e começo da lista.
+        botoesPg.shift()
+        botoesPg.pop()
+
+        //Atribui o poder de ativar a página selecionada
+        Array.from(botoesPg).forEach(botao => {
+            botao.addEventListener("click",()=>{
+                ativarPg(botao)
+            })
+        });
+
+        function ativarPg(botao) {
+            //Desativa os items já ativados
+            let itemsAtual = document.getElementsByClassName("pg-"+pgAtual);
+            Array.from(itemsAtual).forEach(itemAtual => {
+                itemAtual.style.display = "none";
+            })
+            document.querySelector(".pg-ativa").classList = "pg";
+
+            //Altera pg pgAtual
+            pgAtual = botao.textContent;
+
+            //Ativa a nova página
+            let itemsNovos = document.getElementsByClassName("pg-"+pgAtual);
+            Array.from(itemsNovos).forEach(itemNovo => {
+                itemNovo.style.display = "flex";
+            })
+            botao.classList = "pg pg-ativa";
+        }
+
+        //Carregar próximas 5 páginas
+        document.getElementById("proximo").addEventListener("click",proximo);
+        document.getElementById("anterior").addEventListener("click",anterior);
+
+        function proximo() {
+            if(document.getElementById("goEnd").style.display != "none"){
+                document.getElementById("goStart").style.display = "flex"
+
+                let secao = Math.ceil(pgAtual/5)-1;
+
+                for (let i = 0; i < 5; i++) {
+                    botoesPg[secao*5+i].style.display = "none"
+                    try {
+                        botoesPg[(secao+1)*5+i-1].style.display = "flex"
+                    } catch (e) {
+                        document.getElementById("goEnd").style.display = "none"
+                    }
+                }
+
+                ativarPg(botoesPg[(secao+1)*5])
+            }   
+        }
+
+        function anterior() {
+            if(document.getElementById("goStart").style.display != "none"){
+                document.getElementById("goEnd").style.display = "flex"
+
+                let secao = Math.ceil(pgAtual/5)-1;
+                
+                for (let i = 0; i < 5; i++) {
+                    botoesPg[(secao-1)*5+i].style.display = "flex"
+                    try {
+                    botoesPg[secao*5+i].style.display = "none"
+                    } catch (e) {}
+                }
+
+                if(secao-1 == 0) document.getElementById("goStart").style.display = "none"
+
+                ativarPg(botoesPg[(secao)*5-1])
+            }   
+        }
+
+        //Pular pra primeira/última página
+        document.getElementById("goEnd").addEventListener("click",()=>{
+            do {
+                proximo()
+            } while (document.getElementById("goEnd").style.display != "none");
+            ativarPg(botoesPg[botoesPg.length - 1])
+        })
+
+        document.getElementById("goStart").addEventListener("click",()=>{
+            do {
+                anterior()
+            } while (document.getElementById("goStart").style.display != "none");
+            ativarPg(botoesPg[0])
+        })
+
+    </script>
 @endsection

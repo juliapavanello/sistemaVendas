@@ -19,7 +19,9 @@ class CaixaController extends Controller
 
         $entrada30 = $this->calcularUltimos30Dias("Entrada");
         $saida30 = $this->calcularUltimos30Dias("Saída");
-        return view("/caixa/dashboardCaixa", compact("caixas",'usuarios','entrada30','saida30'));
+
+        $qtdPorPg = 7;
+        return view("/caixa/dashboardCaixa", compact("caixas",'usuarios','entrada30','saida30','qtdPorPg'));
     }
 
     public function create()
