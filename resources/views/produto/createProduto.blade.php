@@ -35,138 +35,143 @@
         </div>
 
         <div class="formulario">
-            <!-- Etapa 1 -->
-            <div class="etapa-formulario" id="etapa-1">
-                <h3>Informações do produto</h3>
+            <form action="{{ route('produtos.store') }}" method="POST">
+                @csrf
+                <!-- Etapa 1 -->
+                <div class="etapa-formulario" id="etapa-1">
+                    <h3>Informações do produto</h3>
 
-                <label for="nome">Nome do produto<span class="obrigatorio">*</span></label>
-                <input type="text" id="nome" placeholder="">
+                    <label for="nome">Nome do produto<span class="obrigatorio">*</span></label>
+                    <input type="text" id="nome" name="nome" placeholder="">
 
-                <label for="descricao">Descrição do produto</label>
-                <textarea id="descricao" placeholder="Insira a descrição do produto"></textarea>
+                    <label for="descricao">Descrição do produto</label>
+                    <textarea id="descricao" placeholder="Insira a descrição do produto" name="descricao"></textarea>
 
-                <div class="linha-campos">
-                    <div class="quantidade">
-                        <label for="quantidade">Quantidade</label>
-                        <input type="number" id="quantidade">
-                    </div>
-                    <div class="unidade">
-                        <label for="unidade">Unidade de medida<span class="obrigatorio">*</span></label>
-                        <input type="text" id="unidade">
-                    </div>
-                </div>
-
-                <div class="botoes">
-                    <button class="cancelar" onclick="window.location='{{ route('produtos.index') }}'"><span
-                            class="highlight">Cancelar</span></button>
-                    <button class="continuar" onclick="mudarEtapa(2)">Continuar <svg width="15" height="15"
-                            viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
-                                fill="white" />
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
-                                fill="white" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Etapa 2 -->
-            <div class="etapa-formulario" id="etapa-2" style="display: none">
-                <h3>Definição de preços</h3>
-                <div class="linha-campos">
-                    <div>
-                        <label>Preço de venda</label>
-                        <input type="text" placeholder="R$ 0,00">
-                        <small>Presumido como não à venda</small> <!--eu não entendi essa coisa do presumido-->
-                    </div>
-                    <div>
-                        <label>Custo de compra</label>
-                        <input type="text" placeholder="R$ 0,00">
-                    </div>
-                </div>
-
-                <h3 class="config">Configurações de venda e compra</h3>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <div class="switch">
-                            <div class="bola"></div>
+                    <div class="linha-campos">
+                        <div class="quantidade">
+                            <label for="quantidade">Quantidade</label>
+                            <input type="number" id="quantidade" name="quantidade">
                         </div>
-                        <p> Descontar do caixa ao adicionar estoque</p>
-                    </div>
-                    <div class="checkbox-item">
-                        <div class="switch">
-                            <div class="bola"></div>
+                        <div class="unidade">
+                            <label for="unidade">Unidade de medida<span class="obrigatorio">*</span></label>
+                            <input type="text" id="unidade" name="unidade">
                         </div>
-                        <p> Aberto há venda</p>
                     </div>
-                    <div class="checkbox-item">
-                        <div class="switch">
-                            <div class="bola"></div>
-                        </div>
-                        <p>Descontar do estoque na venda</p>
-                    </div>   
+
+                    <div class="botoes">
+                        <button type="button" class="cancelar" onclick="window.location='{{ route('produtos.index') }}'"><span
+                                class="highlight">Cancelar</span></button>
+                        <button type="button"  class="continuar" onclick="mudarEtapa(2)">Continuar <svg width="15" height="15"
+                                viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
+                                    fill="white" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
+                                    fill="white" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="botoes">
-                    <button class="voltar" onclick="mudarEtapa(1)">Voltar</button>
-                    <button class="continuar" onclick="mudarEtapa(3)">Continuar <svg width="15" height="15"
-                            viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
-                                fill="white" />
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
-                                fill="white" />
-                        </svg></button>
-                </div>
-            </div>
-
-            <!-- Etapa 3 -->
-            <div class="etapa-formulario" id="etapa-3" style="display: none">
-                <h3>Configurações de avisos</h3>
-
-                <label class="switch-label">
-                    <div class="checkbox-item">
-                        <div class="switch">
-                            <div class="bola"></div>
+                <!-- Etapa 2 -->
+                <div class="etapa-formulario" id="etapa-2" style="display: none">
+                    <h3>Definição de preços</h3>
+                    <div class="linha-campos">
+                        <div>
+                            <label>Preço de venda</label>
+                            <input type="text" placeholder="R$ 0,00" name="preco">
+                            <small>Presumido como não à venda</small> <!--eu não entendi essa coisa do presumido-->
                         </div>
-                        <p>Habilitar avisos nesse produto</p>
-                    </div>   
-                </label>
+                        <div>
+                            <label>Custo de compra</label>
+                            <input type="text" placeholder="R$ 0,00" name="custo">
+                        </div>
+                    </div>
 
-                <div class="alerta-item">
-                    <label class="checkbox-container">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        O alerta de "<strong class="verde">perto do baixo estoque</strong>" é disparado a partir de:
+                    <h3 class="config">Configurações de venda e compra</h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <div class="switch">
+                                <div class="bola"></div>
+                                <input type="hidden" value="false" name="descontarCaixa">
+                            </div>
+                            <p> Descontar do caixa ao adicionar estoque</p>
+                        </div>
+                        <div class="checkbox-item">
+                            <div class="switch">
+                                <div class="bola"></div>
+                                <input type="hidden" value="false" name="paraVenda">
+                            </div>
+                            <p> Aberto há venda</p>
+                        </div>
+                        <div class="checkbox-item">
+                            <div class="switch">
+                                <div class="bola"></div>
+                                <input type="hidden" value="false" name="descontarEstoque">
+                            </div>
+                            <p>Descontar do estoque na venda</p>
+                        </div>
+                    </div>
+
+                    <div class="botoes">
+                        <button type="button"  class="voltar" onclick="mudarEtapa(1)">Voltar</button>
+                        <button type="button"  class="continuar" onclick="mudarEtapa(3)">Continuar <svg width="15" height="15"
+                                viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
+                                    fill="white" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
+                                    fill="white" />
+                            </svg></button>
+                    </div>
+                </div>
+
+                <!-- Etapa 3 -->
+                <div class="etapa-formulario" id="etapa-3" style="display: none">
+                    <h3>Configurações de avisos</h3>
+
+                    <label class="switch-label">
+                        <div class="checkbox-item">
+                            <div class="switch">
+                                <div class="bola"></div>
+                                <input type="hidden" value="false" name="ativarAvisos">
+                            </div>
+                            <p>Habilitar avisos nesse produto</p>
+                        </div>
                     </label>
-                    <input type="text" class="input-alerta">
+
+                    <div class="alerta-item">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="ativarAvisoLeve">
+                            <span class="checkmark"></span>
+                            O alerta de "<strong class="verde">perto do baixo estoque</strong>" é disparado a partir de:
+                        </label>
+                        <input type="text" class="input-alerta" name="avisoLeve">
+                    </div>
+
+                    <div class="alerta-item">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="ativarAvisoGrave">
+                            <span class="checkmark"></span>
+                            O alerta de "<strong class="amarelo">baixo estoque</strong>" é disparado a partir de:
+                        </label>
+                        <input type="text" class="input-alerta" name="avisoGrave">
+                    </div>
+
+                    <div class="botoes">
+                        <button class="voltar" type="button" onclick="mudarEtapa(2)">Voltar</button>
+                        <button class="continuar" type="submit">
+                            Salvar
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6663 5L7.49967 14.1667L3.33301 10" stroke="white" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-
-                <div class="alerta-item">
-                    <label class="checkbox-container">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        O alerta de "<strong class="amarelo">baixo estoque</strong>" é disparado a partir de:
-                    </label>
-                    <input type="text" class="input-alerta">
-                </div>
-
-                <div class="botoes">
-                    <button class="voltar" onclick="mudarEtapa(2)">Voltar</button>
-                    <button class="continuar">
-                        Salvar
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16.6663 5L7.49967 14.1667L3.33301 10" stroke="white" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-
+            </form>
         </div>
     </div>
 
@@ -177,8 +182,10 @@
             element.addEventListener("click", () => {
                 if (bola.classList.length == 1) {
                     bola.classList = "bola input-ativo"
+                    element.querySelector("input").value="true"
                 } else {
                     bola.classList = "bola"
+                    element.querySelector("input").value="false"
                 }
             })
         });
@@ -193,7 +200,7 @@
             });
 
             document.querySelectorAll('.etapas .etapa-caminho').forEach((etapa, index) => {
-                etapa.classList.toggle('ativa', index + 1 <= numero-1);
+                etapa.classList.toggle('ativa', index + 1 <= numero - 1);
             });
         }
     </script>

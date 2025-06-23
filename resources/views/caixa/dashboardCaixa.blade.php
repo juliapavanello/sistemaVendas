@@ -118,6 +118,7 @@
                     <!--icones deletar e excluir-->
                 </div>
             </div>
+            
             <div class="items-lista {{ $i=1 }}">
                 @foreach($caixas as $item)
                     <div class="item-lista pg-{{ ceil(($i++)/$qtdPorPg) }}" @if($item->id >= $caixas[$qtdPorPg]->id) style="display: none" @endif>
@@ -333,6 +334,5 @@
             } while (document.getElementById("goStart").style.display != "none");
             ativarPg(botoesPg[0])
         })
-
     </script>
 @endsection

@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\DAO\AvisoDAO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\DAO\ProdutoDAO;
+use App\DAO\UserDAO;
 
 class ProdutoController extends Controller
 {
     public function index()
     {
-        return view("/produto/dashboardProduto");
+        $produtos = ProdutoDAO::getAll();
+        $avisos = AvisoDAO::getAll();
+
+        $qtdPorPg = 7;
+        return view("/produto/dashboardProduto", compact("produtos","avisos","qtdPorPg"));
     }
 
     public function create()
@@ -41,6 +47,7 @@ class ProdutoController extends Controller
         $validated = Validator::make($request->all(), [
             'nome' => 'required',
             'custo' => 'required|gt:0',
+            'unidade' => 'required|string'
         ]);
 
         if ($validated->fails()) {
@@ -49,7 +56,23 @@ class ProdutoController extends Controller
                 ->withInput();
         }
 
+        //Define algumas coisas
+        if ($data['preco'] == null || $data['preco'] == 0) {
+            $data['paraVenda'] = false;
+        }
+
+        if (!$data['paraVenda']) {
+            $data['descontarEstoque'] = false;
+        }
+
+        if ($data['ativarAvisos'] == 'false') {
+            $data['avisoLeve'] = 0;
+            $data['avisoGrave'] = 0;
+        }
+
         ProdutoDAO::create($data);
+
+        return redirect()->route('produtos.index');
     }
 
     public function edit($id)
@@ -82,9 +105,9 @@ class ProdutoController extends Controller
         }
 
         //add qtd
-        $qtd =(int) $data['quantidade'] ?? 0;
+        $qtd = (int) $data['quantidade'] ?? 0;
         $data['quantidade'] = $produto->quantidade + $qtd;
-        if($data['quantidade'] < 0){
+        if ($data['quantidade'] < 0) {
             $data['quantidade'] = 0;
         }
 
@@ -99,18 +122,21 @@ class ProdutoController extends Controller
                 ->withInput();
         }
 
-        ProdutoDAO::updateById($id,$data);
+        ProdutoDAO::updateById($id, $data);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         ProdutoDAO::delete($id);
+
+        return redirect()->back();
     }
 
-    public function realizarVenda($idProduto, $quantidade){
+    public function realizarVenda($idProduto, $quantidade)
+    {
         $produto = ProdutoDAO::getById($idProduto);
-        
-        if($quantidade > $produto->quantidade){
+
+        if ($quantidade > $produto->quantidade) {
             return false;
         }
 
@@ -120,7 +146,8 @@ class ProdutoController extends Controller
         return true;
     }
 
-    public function desfazerVenda($idProduto, $quantidade){
+    public function desfazerVenda($idProduto, $quantidade)
+    {
         $produto = ProdutoDAO::getById($idProduto);
 
         $novaQuantidade = $produto->quantidade + $quantidade;

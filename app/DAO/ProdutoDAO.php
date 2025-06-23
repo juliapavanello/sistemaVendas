@@ -9,7 +9,7 @@
             return Produto::find($id);
         }
         public static function getAll(){
-            return Produto::all();
+            return Produto::orderBy('id', 'asc')->get();;
         }
         public static function create(array $data){
             return Produto::create($data);
