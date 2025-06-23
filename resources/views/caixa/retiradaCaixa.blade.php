@@ -39,9 +39,9 @@
         </div>
 
         <div class="formulario">
-            <form action="{{ $action == 'edit' ? route('caixas.update', $caixa->id) : route('caixas.store')}}"
-                method="{{ $action == 'edit' ? "PUT" : "POST"}}">
+            <form action="{{ $action == 'edit' ? route('caixas.update', $caixa->id) : route('caixas.store')}}" method="POST">
                 @csrf
+                @method('PUT')
                 <!-- Etapa 1 -->
                 <div class="etapa-formulario" id="etapa-1">
                     <h3>Informações da retirada</h3>

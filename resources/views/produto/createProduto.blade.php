@@ -1,7 +1,7 @@
 @extends("layouts/layout")
 
 @section('title', 'Produtos')
-@section('local', 'Novo produto')
+@section('local', $action=='edit' ? 'Alterar produto':'Novo produto')
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/criar.css?v=' . localtime()[0]) }}">
 @endsection
@@ -35,26 +35,30 @@
         </div>
 
         <div class="formulario">
-            <form action="{{ route('produtos.store') }}" method="POST">
+            <form action="{{ $action == 'edit' ? route('produtos.update', $produto->id) : route('produtos.store')}}"
+                method="POST">
                 @csrf
+                @if($action == 'edit')
+                    @method('PUT')
+                @endif
                 <!-- Etapa 1 -->
                 <div class="etapa-formulario" id="etapa-1">
                     <h3>Informações do produto</h3>
 
                     <label for="nome">Nome do produto<span class="obrigatorio">*</span></label>
-                    <input type="text" id="nome" name="nome" placeholder="">
+                    <input type="text" id="nome" name="nome" placeholder="Insira o nome do produto" @if($action == 'edit') value="{{ $produto->nome }}" @endif>
 
                     <label for="descricao">Descrição do produto</label>
-                    <textarea id="descricao" placeholder="Insira a descrição do produto" name="descricao"></textarea>
+                    <textarea id="descricao" placeholder="Insira a descrição do produto" name="descricao">@if($action == 'edit'){{ $produto->descricao }}@endif</textarea>
 
                     <div class="linha-campos">
                         <div class="quantidade">
                             <label for="quantidade">Quantidade</label>
-                            <input type="number" id="quantidade" name="quantidade">
+                            <input type="number" id="quantidade" name="quantidade" @if($action == 'edit') value="{{ $produto->quantidade }}" @endif>
                         </div>
                         <div class="unidade">
                             <label for="unidade">Unidade de medida<span class="obrigatorio">*</span></label>
-                            <input type="text" id="unidade" name="unidade">
+                            <input type="text" id="unidade" name="unidade" @if($action == 'edit') value="{{ $produto->unidade }}" @endif>
                         </div>
                     </div>
 
@@ -80,12 +84,12 @@
                     <div class="linha-campos">
                         <div>
                             <label>Preço de venda</label>
-                            <input type="text" placeholder="R$ 0,00" name="preco">
+                            <input type="text" placeholder="R$ 0,00" name="preco" @if($action == 'edit') value="{{ $produto->preco }}" @endif>
                             <small>Presumido como não à venda</small> <!--eu não entendi essa coisa do presumido-->
                         </div>
                         <div>
                             <label>Custo de compra</label>
-                            <input type="text" placeholder="R$ 0,00" name="custo">
+                            <input type="text" placeholder="R$ 0,00" name="custo" @if($action == 'edit') value="{{ $produto->custo }}" @endif>
                         </div>
                     </div>
 
@@ -93,22 +97,22 @@
                     <div class="checkbox-group">
                         <div class="checkbox-item">
                             <div class="switch">
-                                <div class="bola"></div>
-                                <input type="hidden" value="false" name="descontarCaixa">
+                                <div class="bola @if($action == 'edit' && $produto->descontarCaixa == "true") input-ativo @endif"></div>
+                                <input type="hidden" @if($action == 'edit') value="{{ $produto->descontarCaixa }}" @else value="false" @endif name="descontarCaixa">
                             </div>
                             <p> Descontar do caixa ao adicionar estoque</p>
                         </div>
                         <div class="checkbox-item">
                             <div class="switch">
-                                <div class="bola"></div>
-                                <input type="hidden" value="false" name="paraVenda">
+                                <div class="bola @if($action == 'edit' && $produto->paraVenda == "true") input-ativo @endif"></div>
+                                <input type="hidden" @if($action == 'edit') value="{{ $produto->paraVenda }}" @else value="false" @endif name="paraVenda">
                             </div>
                             <p> Aberto há venda</p>
                         </div>
                         <div class="checkbox-item">
                             <div class="switch">
-                                <div class="bola"></div>
-                                <input type="hidden" value="false" name="descontarEstoque">
+                                <div class="bola @if($action == 'edit' && $produto->descontarEstoque == "true") input-ativo @endif"></div>
+                                <input type="hidden" @if($action == 'edit') value="{{ $produto->descontarEstoque }}" @else value="false" @endif name="descontarEstoque">
                             </div>
                             <p>Descontar do estoque na venda</p>
                         </div>
@@ -135,8 +139,8 @@
                     <label class="switch-label">
                         <div class="checkbox-item">
                             <div class="switch">
-                                <div class="bola"></div>
-                                <input type="hidden" value="false" name="ativarAvisos">
+                                <div class="bola @if($action == 'edit' && ($produto->avisoLeve != 0 || $produto->avisoGrave != 0)) input-ativo @endif"></div>
+                                <input type="hidden" @if($action == 'edit') value="{{ ($produto->avisoLeve == 0 && $produto->avisoGrave == 0) ? "false":"true"}}" @else value="false" @endif name="ativarAvisos">
                             </div>
                             <p>Habilitar avisos nesse produto</p>
                         </div>
@@ -144,20 +148,20 @@
 
                     <div class="alerta-item">
                         <label class="checkbox-container">
-                            <input type="checkbox" name="ativarAvisoLeve">
+                            <input type="checkbox" name="ativarAvisoLeve" @if($action == 'edit' && $produto->avisoLeve != 0) checked @endif>
                             <span class="checkmark"></span>
                             O alerta de "<strong class="verde">perto do baixo estoque</strong>" é disparado a partir de:
                         </label>
-                        <input type="text" class="input-alerta" name="avisoLeve">
+                        <input type="text" class="input-alerta" name="avisoLeve" @if($action == 'edit' && $produto->avisoLeve != 0) value="{{ $produto->avisoLeve }}" @endif>
                     </div>
 
                     <div class="alerta-item">
                         <label class="checkbox-container">
-                            <input type="checkbox" name="ativarAvisoGrave">
+                            <input type="checkbox" name="ativarAvisoGrave" @if($action == 'edit' && $produto->avisoGrave != 0) checked @endif>
                             <span class="checkmark"></span>
                             O alerta de "<strong class="amarelo">baixo estoque</strong>" é disparado a partir de:
                         </label>
-                        <input type="text" class="input-alerta" name="avisoGrave">
+                        <input type="text" class="input-alerta" name="avisoGrave" @if($action == 'edit' && $produto->avisoGrave != 0) value="{{ $produto->avisoGrave }}" @endif>
                     </div>
 
                     <div class="botoes">

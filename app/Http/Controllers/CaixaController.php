@@ -21,7 +21,7 @@ class CaixaController extends Controller
         $saida30 = $this->calcularUltimos30Dias("Saída");
 
         $qtdPorPg = 7;
-        return view("/caixa/dashboardCaixa", compact("caixas",'usuarios','entrada30','saida30','qtdPorPg'));
+        return view("/caixa/dashboardCaixa", compact("caixas", 'usuarios', 'entrada30', 'saida30', 'qtdPorPg'));
     }
 
     public function create()
@@ -31,15 +31,15 @@ class CaixaController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $negativo = str_contains($data['dinheiro'],'-');
+        $negativo = str_contains($data['dinheiro'], '-');
         $valor = preg_replace('/[^0-9.,]/', '', $data['dinheiro']);
         $valor = str_replace('.', '', $valor);
         $data['dinheiro'] = (double) str_replace(',', '.', $valor);
 
         //Descobre se é entrada ou saída.
-        if($negativo){
+        if ($negativo) {
             $data['tipo'] = "Entrada";
-        }else{
+        } else {
             $data['tipo'] = "Saída";
         }
 
@@ -68,22 +68,32 @@ class CaixaController extends Controller
     public function edit($id)
     {
         $caixa = CaixaDAO::getById($id);
-        return view("/caixa/retiradaCaixa", ["action" => 'edit','caixa'=> $caixa]);
+        return view("/caixa/retiradaCaixa", ["action" => 'edit', 'caixa' => $caixa]);
     }
 
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        
+        $negativo = str_contains($data['dinheiro'], '-');
         $valor = preg_replace('/[^0-9.,]/', '', $data['dinheiro']);
         $valor = str_replace('.', '', $valor);
-        $data['dinheiro'] = str_replace(',', '.', $valor);
+        $data['dinheiro'] = (double) str_replace(',', '.', $valor);
+
+        //Descobre se é entrada ou saída.
+        if ($negativo) {
+            $data['tipo'] = "Entrada";
+        } else {
+            $data['tipo'] = "Saída";
+        }
+
+        //Define a fonte como retirada a mão
+        $data['fonte'] = $negativo ? "Entrada a mão" : "Retirada a mão";
+
+        //Define o usuário logado como responsável
+        $data['usuario_id'] = session('user')->id;
 
         $validator = Validator::make($request->all(), [
-            'dinheiro' => 'required',
-            'fonte' => 'required',
-            'tipo' => 'required|in:Entrada,Saída',
-            'usuario_id' => 'required'
+            'dinheiro' => 'required|not_in:0',
         ]);
 
         if ($validator->fails()) {
@@ -92,13 +102,12 @@ class CaixaController extends Controller
                 ->withInput();
         }
 
-        if(!UserDAO::getById($data['usuario_id'])){
-            return redirect()->back()
-            ->withErrors(['Usuário não encontrado'])
-            ->withInput();
-        }
+        unset($data['_token']);
+        unset($data['_method']);
 
-        CaixaDAO::updateById($id,$data);
+        CaixaDAO::updateById($id, $data);
+
+        return redirect()->route('caixas.index');
     }
 
     public function destroy($id)
@@ -108,12 +117,13 @@ class CaixaController extends Controller
         return redirect()->back();
     }
 
-    public function calcularUltimos30Dias($tipo): float|int{
+    public function calcularUltimos30Dias($tipo): float|int
+    {
         $caixas = CaixaDAO::getLast30Days();
 
         $resultado = 0;
-        foreach($caixas as $caixa){
-            if($caixa->tipo == $tipo){
+        foreach ($caixas as $caixa) {
+            if ($caixa->tipo == $tipo) {
                 $resultado = $resultado + $caixa->dinheiro;
             }
         }

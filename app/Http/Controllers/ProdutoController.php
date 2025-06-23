@@ -77,12 +77,12 @@ class ProdutoController extends Controller
 
     public function edit($id)
     {
-        return view("/produto/createProduto", ["action" => 'edit']);
+        $produto = ProdutoDAO::getById($id);
+        return view("/produto/createProduto", ["action" => 'edit','produto'=> $produto]);
     }
 
     public function update(Request $request, $id)
     {
-
         $produto = ProdutoDAO::getById($id);
 
         if (!$produto) {
@@ -122,7 +122,29 @@ class ProdutoController extends Controller
                 ->withInput();
         }
 
+        //Define algumas coisas
+        if ($data['preco'] == null || $data['preco'] == 0) {
+            $data['paraVenda'] = false;
+        }
+
+        if (!$data['paraVenda']) {
+            $data['descontarEstoque'] = false;
+        }
+
+        if ($data['ativarAvisos'] == 'false') {
+            $data['avisoLeve'] = 0;
+            $data['avisoGrave'] = 0;
+        }
+
+        unset($data['ativarAvisos']);
+        unset($data['ativarAvisoLeve']);
+        unset($data['ativarAvisoGrave']);
+        unset($data['_token']);
+        unset($data['_method']);
+
         ProdutoDAO::updateById($id, $data);
+
+        return redirect()->route('produtos.index');
     }
 
     public function destroy($id)
