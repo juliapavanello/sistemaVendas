@@ -412,6 +412,8 @@
         const barraPesquisa = document.querySelector(".pesquisar");
         const btnPesquisa = document.querySelector(".form-pesquisa").querySelector("svg");
         const tagFiltroTexto = document.querySelector(".filtro");
+        const itensInicias = Array.from(document.querySelector(".items-lista").querySelectorAll(".item-lista"))
+        const filtros = document.getElementsByClassName("filtro")
 
         btnPesquisa.addEventListener("click",()=>{
             pesquisar(barraPesquisa.value)
@@ -420,6 +422,31 @@
             if(e.key != 'Enter' || document.activeElement != barraPesquisa) return;
             pesquisar(barraPesquisa.value)
         })
+
+        document.querySelector('.todos').addEventListener("click",limparPesquisa)
+        Array.from(filtros).forEach((filtro)=>{
+            filtro.querySelector('svg').addEventListener("click",limparPesquisa)
+        })
+
+        function limparPesquisa() {
+            container.innerHTML = '';
+
+            let lastInserted = null;
+
+            itensInicias.forEach((item, index) => {
+            if (index === 0) {
+                container.appendChild(item);
+                lastInserted = item;
+            } else {
+                lastInserted.parentNode.insertBefore(item, lastInserted.nextSibling);
+                lastInserted = item;
+            }
+            });
+
+            Array.from(filtros).forEach((filtro)=>{
+                filtro.style.display = 'none'
+            })
+        }
 
         function pesquisar(pesquisa) {
             // 0. Colocar tag de pesquisa de texto
