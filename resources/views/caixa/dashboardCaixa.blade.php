@@ -59,14 +59,14 @@
                     </div>
                 </div>
                 <div class="pesquisa">
-                    <form class="form-pesquisa">
+                    <div class="form-pesquisa">
                         <input type="text" placeholder="Pesquisar" class="pesquisar">
                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M16.1684 14.656L12.5501 11.1539C13.4212 10.0314 13.8915 8.66516 13.8899 7.26131C13.8899 3.67544 10.8757 0.758057 7.17091 0.758057C3.46607 0.758057 0.451904 3.67544 0.451904 7.26131C0.451904 10.8472 3.46607 13.7646 7.17091 13.7646C8.62134 13.7661 10.0329 13.3109 11.1926 12.4678L14.8109 15.9699C14.9941 16.1284 15.233 16.213 15.4786 16.2063C15.7241 16.1997 15.9578 16.1023 16.1315 15.9341C16.3052 15.766 16.4058 15.5399 16.4127 15.3022C16.4196 15.0645 16.3322 14.8333 16.1684 14.656V14.656ZM2.37162 7.26131C2.37162 6.34258 2.65309 5.44448 3.18045 4.68058C3.7078 3.91669 4.45735 3.3213 5.3343 2.96972C6.21126 2.61814 7.17623 2.52615 8.10721 2.70538C9.03818 2.88462 9.89333 3.32703 10.5645 3.97667C11.2357 4.62631 11.6928 5.454 11.878 6.35508C12.0632 7.25615 11.9681 8.19014 11.6049 9.03894C11.2416 9.88774 10.6265 10.6132 9.83725 11.1236C9.04801 11.6341 8.12012 11.9065 7.17091 11.9065C5.89853 11.905 4.6787 11.4151 3.77899 10.5443C2.87928 9.67349 2.37315 8.49283 2.37162 7.26131V7.26131Z"
                                 fill="white" />
                         </svg>
-                    </form>
+                    </div>
 
                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_55_1027)">
@@ -334,5 +334,50 @@
             } while (document.getElementById("goStart").style.display != "none");
             ativarPg(botoesPg[0])
         })
+    </script>
+
+    <script>
+        const container = document.querySelector(".items-lista");
+        const barraPesquisa = document.querySelector(".pesquisar");
+        const btnPesquisa = document.querySelector(".form-pesquisa").querySelector("svg");
+        const tagFiltroTexto = document.querySelector(".filtro");
+
+        btnPesquisa.addEventListener("click",()=>{
+            pesquisar(barraPesquisa.value)
+        })
+        document.addEventListener("keydown",(e)=>{
+            if(e.key != 'Enter' || document.activeElement != barraPesquisa) return;
+            pesquisar(barraPesquisa.value)
+        })
+
+        function pesquisar(pesquisa) {
+            // 0. Colocar tag de pesquisa de texto
+            tagFiltroTexto.querySelector("p").textContent = '"'+pesquisa+'"'
+            tagFiltroTexto.style.display = "flex";
+
+            // 1. Encontrar os itens que tem o texto
+            let itens = Array.from(container.querySelectorAll(".item-lista"));
+            let resultado = itens.filter(item => item.querySelectorAll('p')[1].textContent.includes(pesquisa));
+            
+            // 2. Mover para o topo da div
+            resultado.forEach(resultado => {         
+                container.insertBefore(resultado, container.firstChild);
+            });
+
+            // 3. Atualizar as classes
+            itens.forEach(item => {
+                item.classList = "item-lista"
+                item.style.display = "none"
+            });
+
+            itens = Array.from(container.querySelectorAll(".item-lista"));
+
+            itens.forEach((item, index) => {
+                item.classList = "item-lista pg-"+Math.ceil((index+1)/{{ $qtdPorPg }});
+            });
+
+            pgAtual = 1;
+            ativarPg(botoesPg[0]);
+        }
     </script>
 @endsection

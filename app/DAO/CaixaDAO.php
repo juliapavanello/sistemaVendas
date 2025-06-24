@@ -10,7 +10,7 @@
             return Caixa::find($id);
         }
         public static function getAll(){
-            return Caixa::all();
+            return Caixa::orderBy('id')->get();;
         }
         public static function create(array $data){
             return Caixa::create($data);
