@@ -62,7 +62,7 @@
             color: var(--branco);
             border: none;
             border-radius: 6px;
-            width: 50px;
+            width: 40%;
             padding: 5px;
         }
 
@@ -91,13 +91,15 @@
         }
 
         .botoes-rodape {
-
-
+            position: sticky;
+            bottom: 20px;
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            background-color: var(--cinza-claro-transparente);
+            padding: 15px 20px;
+            border-radius: 12px;
+            z-index: 10;
         }
-
 
 
         .botoes-rodape button {
@@ -107,15 +109,8 @@
             border: none;
         }
 
-        .cancelar {
-            background: transparent;
-            color: var(--rosa);
-        }
 
-        .continuar {
-            background: var(--rosa);
-            color: white;
-        }
+
 
         .items-lista {
             flex-grow: 0;
@@ -143,7 +138,7 @@
                     <p class="descricao">defina os produtos vendidos aqui</p>
                 </div>
             </div>
-            <div class="etapa-caminho ativa"></div>
+            <div class="etapa-caminho"></div>
             <div class="etapa" data-step="2">
                 <div class="numero">2</div>
                 <div class="info">
@@ -153,198 +148,230 @@
             </div>
         </div>
 
+
         <div class="formulario">
-            <div class="container-lista">
-                <div class="lista">
-                    <div class="pesquisa-container">
-                        <div class="filtros-ativos">
-                            <div class="filtrar-todos">
-                                <button class="todos">Todos</button>
-                                <div class="blur-btn"></div>
+             
+            <div class="etapa-formulario" id="etapa-1">
+               
+                    <div class="container-lista">
+                    <div class="lista">
+                        <div class="pesquisa-container">
+                            <div class="filtros-ativos">
+                                <div class="filtrar-todos">
+                                    <button class="todos">Todos</button>
+                                    <div class="blur-btn"></div>
+                                </div>
+                                <div class="filtro">
+                                    <p>“Coca-Cola”</p>
+                                    <svg width="10" height="10" viewBox="0 0 9 9" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0.75 8.25L8.25 0.75M0.75 0.75L8.25 8.25" stroke="white"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="filtro">
-                                <p>“Coca-Cola”</p>
-                                <svg width="10" height="10" viewBox="0 0 9 9" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0.75 8.25L8.25 0.75M0.75 0.75L8.25 8.25" stroke="white" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
+                            <div class="pesquisa">
+                                <form class="form-pesquisa">
+                                    <input type="text" placeholder="Pesquisar" class="pesquisar">
+                                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16.1684 14.656L12.5501 11.1539C13.4212 10.0314 13.8915 8.66516 13.8899 7.26131C13.8899 3.67544 10.8757 0.758057 7.17091 0.758057C3.46607 0.758057 0.451904 3.67544 0.451904 7.26131C0.451904 10.8472 3.46607 13.7646 7.17091 13.7646C8.62134 13.7661 10.0329 13.3109 11.1926 12.4678L14.8109 15.9699"
+                                            stroke="white" stroke-width="2" />
+                                    </svg>
+                                </form>
                             </div>
                         </div>
-                        <div class="pesquisa">
-                            <form class="form-pesquisa">
-                                <input type="text" placeholder="Pesquisar" class="pesquisar">
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M16.1684 14.656L12.5501 11.1539C13.4212 10.0314 13.8915 8.66516 13.8899 7.26131C13.8899 3.67544 10.8757 0.758057 7.17091 0.758057C3.46607 0.758057 0.451904 3.67544 0.451904 7.26131C0.451904 10.8472 3.46607 13.7646 7.17091 13.7646C8.62134 13.7661 10.0329 13.3109 11.1926 12.4678L14.8109 15.9699"
-                                        stroke="white" stroke-width="2" />
-                                </svg>
-                            </form>
+
+                        <!-- Cabeçalho -->
+                        <div class="header-lista item-lista">
+                            <div class="campo" style="width: 25%; text-align: start;">
+                                <p>Nome</p>
+                            </div>
+                            <div class="campo" style="width: 25%; text-align: start;">
+                                <p>Descrição</p>
+                            </div>
+                            <div class="campo" style="width: 25%; text-align: start;">
+                                <p>Preço Unitário</p>
+                            </div>
+                            <div class="campo" style="width: 25%; text-align: start;">
+                                <p>Quantidade</p>
+                            </div>
+                            <div class="campo" style="width: 25%; text-align: start;">
+                                <p>Preço Total</p>
+                            </div>
+                        </div>
+
+                        <div class="items-lista">
+                            <div class="item-lista">
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Coca-Cola 2L</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Refrigerante tradicional</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>R$ 10,00</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;"><input type="number"
+                                        placeholder="0" class="quantidade-input"></input></div>
+                                <div class="campo" style="width: 25%;text-align: start;">
+                                    <p>R$ 20,00</p>
+                                </div>
+                            </div>
+
+                            <div class="item-lista">
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Coca-Cola 2L</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Refrigerante tradicional</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>R$ 10,00</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;"><input type="number"
+                                        placeholder="0" class="quantidade-input"></input></div>
+                                <div class="campo" style="width: 25%;text-align: start;">
+                                    <p>R$ 20,00</p>
+                                </div>
+                            </div>
+
+                            <div class="item-lista">
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Coca-Cola 2L</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Refrigerante tradicional</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>R$ 10,00</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;"><input type="number"
+                                        placeholder="0" class="quantidade-input"></input></div>
+                                <div class="campo" style="width: 25%;text-align: start;">
+                                    <p>R$ 20,00</p>
+                                </div>
+                            </div>
+
+                            <div class="item-lista">
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Coca-Cola 2L</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Refrigerante tradicional</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>R$ 10,00</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;"><input type="number"
+                                        placeholder="0" class="quantidade-input"></input></div>
+                                <div class="campo" style="width: 25%;text-align: start;">
+                                    <p>R$ 20,00</p>
+                                </div>
+                            </div>
+
+
+
+                            <div class="item-lista">
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Coca-Cola 2L</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>Refrigerante tradicional</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;">
+                                    <p>R$ 10,00</p>
+                                </div>
+                                <div class="campo" style="width: 25%; text-align: start;"><input type="number"
+                                        placeholder="0" class="quantidade-input"></input></div>
+                                <div class="campo" style="width: 25%;text-align: start;">
+                                    <p>R$ 20,00</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!-- Paginação Simples -->
+                        <div class="container-paginas">
+                            <svg id="anterior" width="21" height="20" viewBox="0 0 21 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 4.16659L7.16667 9.99992L13 15.8333" stroke="white" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="paginas">
+                                <div class="pg pg-ativa">1</div>
+                                <div class="pg">2</div>
+                                <div class="pg">3</div>
+                                <div class="pg">...</div>
+                                <div class="pg">5</div>
+                            </div>
+                            <svg id="proximo" width="21" height="20" viewBox="0 0 21 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 4.16659L13.8333 9.99992L8 15.8333" stroke="white" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </div>
                     </div>
 
-                    <!-- Cabeçalho -->
-                    <div class="header-lista item-lista">
-                        <div class="campo" style="width: 21%; text-align: start;">
-                            <p>Nome</p>
-                        </div>
-                        <div class="campo" style="width: 33%; text-align: start;">
-                            <p>Descrição</p>
-                        </div>
-                        <div class="campo" style="width: 12%;">
-                            <p>Preço Unitário</p>
-                        </div>
-                        <div class="campo" style="width: 13%;">
-                            <p>Quantidade</p>
-                        </div>
-                        <div class="campo" style="width: 12%;">
-                            <p>Preço Total</p>
-                        </div>
-                        <div class="campo" style="width: 9%;"><!-- Ações --></div>
-                    </div>
-
-                    <!-- Itens da venda (Mock) -->
-                    <div class="items-lista">
-                        <div class="item-lista">
-                            <div class="campo" style="width: 21%; text-align: start;">
-                                <p>Coca-Cola 2L</p>
-                            </div>
-                            <div class="campo" style="width: 33%; text-align: start;">
-                                <p>Refrigerante tradicional</p>
-                            </div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 10,00</p>
-                            </div>
-                            <div class="campo" style="width: 13%;"><input type="number" value="0"
-                                    class="quantidade-input"></input></div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 20,00</p>
-                            </div>
-                            <div class="campo" style="width: 9%;"><!-- Botões --></div>
-                        </div>
-
-                        <div class="item-lista">
-                            <div class="campo" style="width: 21%; text-align: start;">
-                                <p>Produto Genérico</p>
-                            </div>
-                            <div class="campo" style="width: 33%; text-align: start;">
-                                <p>Descrição exemplo</p>
-                            </div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 5,00</p>
-                            </div>
-                            <div class="campo" style="width: 13%;"><input class="quantidade-input"></input></div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 15,00</p>
-                            </div>
-                            <div class="campo" style="width: 9%;"><!-- Botões --></div>
-                        </div>
-
-                        <div class="item-lista">
-                            <div class="campo" style="width: 21%; text-align: start;">
-                                <p>Água Mineral</p>
-                            </div>
-                            <div class="campo" style="width: 33%; text-align: start;">
-                                <p>Garrafa 500ml</p>
-                            </div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 2,00</p>
-                            </div>
-                            <div class="campo" style="width: 13%;"><input class="quantidade-input"></input></div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 10,00</p>
-                            </div>
-                            <div class="campo" style="width: 9%;"><!-- Botões --></div>
-                        </div>
-
-
-                        <div class="item-lista">
-                            <div class="campo" style="width: 21%; text-align: start;">
-                                <p>Água Mineral</p>
-                            </div>
-                            <div class="campo" style="width: 33%; text-align: start;">
-                                <p>Garrafa 500ml</p>
-                            </div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 2,00</p>
-                            </div>
-                            <div class="campo" style="width: 13%;"><input class="quantidade-input"></input></div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 10,00</p>
-                            </div>
-                            <div class="campo" style="width: 9%;"><!-- Botões --></div>
-                        </div>
-
-
-                        <div class="item-lista">
-                            <div class="campo" style="width: 21%; text-align: start;">
-                                <p>Água Mineral</p>
-                            </div>
-                            <div class="campo" style="width: 33%; text-align: start;">
-                                <p>Garrafa 500ml</p>
-                            </div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 2,00</p>
-                            </div>
-                            <div class="campo" style="width: 13%;"><input class="quantidade-input"></input></div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 10,00</p>
-                            </div>
-                            <div class="campo" style="width: 9%;"><!-- Botões --></div>
-                        </div>
-
-
-                        <div class="item-lista">
-                            <div class="campo" style="width: 21%; text-align: start;">
-                                <p>Água Mineral</p>
-                            </div>
-                            <div class="campo" style="width: 33%; text-align: start;">
-                                <p>Garrafa 500ml</p>
-                            </div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 2,00</p>
-                            </div>
-                            <div class="campo" style="width: 13%;"><input class="quantidade-input"></input></div>
-                            <div class="campo" style="width: 12%;">
-                                <p>R$ 10,00</p>
-                            </div>
-                            <div class="campo" style="width: 9%;"><!-- Botões --></div>
-                        </div>
-
-
-
-                    </div>
-
-                    <!-- Paginação Simples -->
-                    <div class="container-paginas">
-                        <svg id="anterior" width="21" height="20" viewBox="0 0 21 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13 4.16659L7.16667 9.99992L13 15.8333" stroke="white" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <div class="paginas">
-                            <div class="pg pg-ativa">1</div>
-                            <div class="pg">2</div>
-                            <div class="pg">3</div>
-                            <div class="pg">...</div>
-                            <div class="pg">5</div>
-                        </div>
-                        <svg id="proximo" width="21" height="20" viewBox="0 0 21 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 4.16659L13.8333 9.99992L8 15.8333" stroke="white" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
                 </div>
+                
+            <div class="botoes botoes-rodape">
+                <button type="button" class="cancelar" onclick="window.location='{{ route('vendas.index') }}'">
+                    <span class="highlight">Cancelar</span>
+                </button>
+                <button type="button" class="continuar" onclick="mudarEtapa(2)">Continuar
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
+                            fill="white" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
+                            fill="white" />
+                    </svg></button>
+            </div>
+
             </div>
 
 
 
+            <div class="etapa-formulario" id="etapa-2" style="display: none">
+                <h3>Definição de preços</h3>
+                
+            </div>
         </div>
-        <div class="botoes-rodape">
-            <button type="button" class="cancelar">Cancelar</button>
-            <button type="button" class="continuar">Continuar</button>
-        </div>
+
     </div>
+    <script>
+
+
+        let switchs = document.querySelectorAll(".switch");
+        switchs.forEach(element => {
+            let bola = element.querySelector(".bola")
+            element.addEventListener("click", () => {
+                if (bola.classList.length == 1) {
+                    bola.classList = "bola input-ativo"
+                    element.querySelector("input").value = "true"
+                } else {
+                    bola.classList = "bola"
+                    element.querySelector("input").value = "false"
+                }
+            })
+        });
+
+
+        function mudarEtapa(numero) {
+            document.querySelectorAll('.etapa-formulario').forEach(e => e.style.display = 'none');
+            document.getElementById('etapa-' + numero).style.display = 'block';
+
+            document.querySelectorAll('.etapas .etapa').forEach((etapa, index) => {
+                etapa.classList.toggle('ativa', index + 1 <= numero);
+            });
+
+            document.querySelectorAll('.etapas .etapa-caminho').forEach((etapa, index) => {
+                etapa.classList.toggle('ativa', index + 1 <= numero - 1);
+            });
+        }
+    </script>
 @endsection
