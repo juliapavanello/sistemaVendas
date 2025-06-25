@@ -22,14 +22,19 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            Session::put('user', UserDAO::getByEmail($request->email));
+        $user = UserDAO::getByEmail($credentials['email']);
+        if (!$user->bloqueio) {
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                Session::put('user', UserDAO::getByEmail($request->email));
 
-            return redirect()->intended('produtos');
+                return redirect()->intended('produtos');
+            }
+            return back()->withErrors([
+                'email' => 'Credenciais erradas.',
+            ])->onlyInput('email');
+        }else{
+            return back();
         }
-        return back()->withErrors([
-            'email' => 'Credenciais erradas.',
-        ])->onlyInput('email');
     }
 }

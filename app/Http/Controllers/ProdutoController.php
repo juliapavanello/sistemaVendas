@@ -127,6 +127,8 @@ class ProdutoController extends Controller
             $data['paraVenda'] = false;
         }
 
+        if($data['paraVenda'])
+
         if (!$data['paraVenda']) {
             $data['descontarEstoque'] = false;
         }

@@ -334,10 +334,8 @@
             } while (document.getElementById("goStart").style.display != "none");
             ativarPg(botoesPg[0])
         })
-    </script>
-
-    <script>
-                const container = document.querySelector(".items-lista");
+        
+        const container = document.querySelector(".items-lista");
         const barraPesquisa = document.querySelector(".pesquisar");
         const btnPesquisa = document.querySelector(".form-pesquisa").querySelector("svg");
         const tagFiltroTexto = document.querySelector(".filtro");

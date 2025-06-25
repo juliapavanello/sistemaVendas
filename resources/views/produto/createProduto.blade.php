@@ -53,13 +53,19 @@
 
                     <div class="linha-campos">
                         <div class="quantidade">
-                            <label for="quantidade">Quantidade</label>
-                            <input type="number" id="quantidade" name="quantidade" @if($action == 'edit') value="{{ $produto->quantidade }}" @endif>
+                            <label for="quantidade">@if ($action == 'edit') Add. Estoque @else Quantidade @endif</label>
+                            <input type="number" id="quantidade" name="quantidade" placeholder="0">
                         </div>
                         <div class="unidade">
                             <label for="unidade">Unidade de medida<span class="obrigatorio">*</span></label>
                             <input type="text" id="unidade" name="unidade" @if($action == 'edit') value="{{ $produto->unidade }}" @endif>
                         </div>
+                        @if($action == 'edit')
+                        <div>
+                            <label for="">Estoque atual</label>
+                            <p style="font-size: 20px; margin-top: 5px;">{{ $produto->quantidade.' '.$produto->unidade }}</p>
+                        </div>
+                        @endif
                     </div>
 
                     <div class="botoes">
@@ -98,21 +104,21 @@
                         <div class="checkbox-item">
                             <div class="switch">
                                 <div class="bola @if($action == 'edit' && $produto->descontarCaixa == "true") input-ativo @endif"></div>
-                                <input type="hidden" @if($action == 'edit') value="{{ $produto->descontarCaixa }}" @else value="false" @endif name="descontarCaixa">
+                                <input type="hidden" @if($action == 'edit') value="{{ $produto->descontarCaixa ? $produto->descontarCaixa : "false" }}" @else value="false" @endif name="descontarCaixa">
                             </div>
                             <p> Descontar do caixa ao adicionar estoque</p>
                         </div>
                         <div class="checkbox-item">
                             <div class="switch">
                                 <div class="bola @if($action == 'edit' && $produto->paraVenda == "true") input-ativo @endif"></div>
-                                <input type="hidden" @if($action == 'edit') value="{{ $produto->paraVenda }}" @else value="false" @endif name="paraVenda">
+                                <input type="hidden" @if($action == 'edit') value="{{ $produto->paraVenda ? $produto->paraVenda : "false"}}" @else value="false" @endif name="paraVenda">
                             </div>
                             <p> Aberto há venda</p>
                         </div>
                         <div class="checkbox-item">
                             <div class="switch">
                                 <div class="bola @if($action == 'edit' && $produto->descontarEstoque == "true") input-ativo @endif"></div>
-                                <input type="hidden" @if($action == 'edit') value="{{ $produto->descontarEstoque }}" @else value="false" @endif name="descontarEstoque">
+                                <input type="hidden" @if($action == 'edit') value="{{ $produto->descontarEstoque ? $produto->descontarEstoque : "false"}}" @else value="false" @endif name="descontarEstoque">
                             </div>
                             <p>Descontar do estoque na venda</p>
                         </div>
