@@ -110,20 +110,115 @@
         }
 
 
-
-
         .items-lista {
             flex-grow: 0;
         }
 
         .formulario {
-            padding: 0px 25px;
+            padding: 0px 0px;
             background: none;
 
         }
 
         .container-paginas {
             margin-top: 15px;
+        }
+
+
+        .venda-container {
+            background-color: var(--cinza-claro-transparente);
+            padding: 15px 25px;
+            border-radius: 16px;
+
+            height: calc(100vh - 130px);
+        }
+
+        .venda {
+            width: 50%;
+        }
+
+        .titulo-venda {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .formulario h3 {
+            font-size: 15px; !important
+            font-weight: 600;
+            margin-bottom: 0px;
+            color: var(--branco);
+        }
+
+        /* Informações */
+        .vendedor {
+            font-size: 16px;
+            margin: 8px 0 0;
+        }
+
+        .subinfo {
+            font-size: 10px;
+            color: #aaa;
+        }
+
+        .data,
+        .origem {
+            font-size: 14px;
+            font-weight: 400;
+              margin: 8px 0 0;
+        }
+        /* bloco que contém nome à esquerda e data à direita */
+.info-section{
+    display:flex;
+    justify-content:space-between;   
+    gap:40px;                        
+}
+
+.info-bloco{
+    display:flex;
+    flex-direction:column;          
+}
+
+.info-bloco.direita{
+    text-align:right; 
+      
+}
+
+        /* Produtoos */
+        
+
+     
+
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .cabecalho {
+            font-weight: 500;
+            border-bottom: 1px solid #888;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+
+    
+
+        .item-lista:hover {
+            background-color: var(--cinza-escuro-detalhes);
         }
     </style>
 @endsection
@@ -150,10 +245,10 @@
 
 
         <div class="formulario">
-             
+
             <div class="etapa-formulario" id="etapa-1">
-               
-                    <div class="container-lista">
+
+                <div class="container-lista">
                     <div class="lista">
                         <div class="pesquisa-container">
                             <div class="filtros-ativos">
@@ -316,29 +411,83 @@
                     </div>
 
                 </div>
-                
-            <div class="botoes botoes-rodape">
-                <button type="button" class="cancelar" onclick="window.location='{{ route('vendas.index') }}'">
-                    <span class="highlight">Cancelar</span>
-                </button>
-                <button type="button" class="continuar" onclick="mudarEtapa(2)">Continuar
-                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
-                            fill="white" />
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
-                            fill="white" />
-                    </svg></button>
-            </div>
+
+                <div class="botoes botoes-rodape">
+                    <button type="button" class="cancelar" onclick="window.location='{{ route('vendas.index') }}'">
+                        <span class="highlight">Cancelar</span>
+                    </button>
+                    <button type="button" class="continuar" onclick="mudarEtapa(2)">Continuar
+                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M7.28119 2.78407C7.54282 2.50948 7.96702 2.50948 8.22865 2.78407L12.2484 7.00282C12.51 7.2774 12.51 7.7226 12.2484 7.99718L8.22865 12.2159C7.96702 12.4905 7.54282 12.4905 7.28119 12.2159C7.01955 11.9413 7.01955 11.4962 7.28119 11.2216L10.8272 7.5L7.28119 3.77843C7.01955 3.50385 7.01955 3.05865 7.28119 2.78407Z"
+                                fill="white" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M2.39526 7.5C2.39526 7.11167 2.69521 6.79688 3.06522 6.79688H11.2164C11.5864 6.79688 11.8863 7.11167 11.8863 7.5C11.8863 7.88833 11.5864 8.20312 11.2164 8.20312H3.06522C2.69521 8.20312 2.39526 7.88833 2.39526 7.5Z"
+                                fill="white" />
+                        </svg></button>
+                </div>
 
             </div>
 
 
 
             <div class="etapa-formulario" id="etapa-2" style="display: none">
-                <h3>Definição de preços</h3>
-                
+                <div class="venda-container">
+                    <div class="venda">
+                    <h2 class="titulo-venda">Visão geral da venda</h2>
+
+ <h3 class="subtitulo">Informações sobre a venda</h3>
+                    <div class="info-section">
+                    
+                         <div class="info-bloco">
+                        <p class="vendedor">Júlia linda maravilhosaaa</p>
+                        <p class="subinfo">Funcionário responsável</p>
+                        </div>
+                         <div class="info-bloco direita"><p class="data">25/04/2025</p>
+                        <p class="subinfo">Dia da venda</p></div>
+                        
+                    </div>
+
+                    <div class="produtos-section">
+                        <h3 class="subtitulo" style="margin:40px 0 0 0">Listagem de produtos</h3>
+                        <div class="tabela">
+                            <div class="linha cabecalho">
+                                <span>Produto</span>
+                                <span>Qtd.</span>
+                            </div>
+                            <div class="linha">
+                                <span>Maçã do amor</span>
+                                <span>x84</span>
+                            </div>
+                            <div class="linha">
+                                <span>Cocada marrom</span>
+                                <span>x5</span>
+                            </div>
+                            <div class="linha">
+                                <span>Coca Zero</span>
+                                <span>x25</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total">
+                        <strong>TOTAL R$</strong>
+                        <span>200,00</span>
+                    </div>
+
+               
+
+                <div class="botoes">
+                    <button type="button" class="voltar" onclick="mudarEtapa(1)">Voltar</button>
+                    <button class="continuar" type="submit">
+                        Confirmar
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.6663 5L7.49967 14.1667L3.33301 10" stroke="white" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div> </div>
+                </div>
             </div>
         </div>
 

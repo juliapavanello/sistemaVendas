@@ -90,8 +90,8 @@
                             <i class="icone-seta" data-lucide="chevron-down"></i>
                         </div>
                         <ul id="vendasMenu" class="sub-menu oculto">
-                            <li><a href="{{ route('vendas.index') }}">Histórico</a></li>
-                            <li><a href="{{ route('vendas.create') }}">Nova venda</a></li>
+                            <li><a href="{{ route('vendas.index') }}"><i data-lucide="history"></i>Histórico</a></li>
+                            <li><a href="{{ route('vendas.create') }}"><i data-lucide="plus"></i>Nova venda</a></li>
                         </ul>
                     </div>
                 @endif
