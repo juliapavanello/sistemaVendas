@@ -48,6 +48,7 @@ class VendaController extends Controller
         unset($data['itens_venda']);
 
         $vendaCriada = VendaDAO::create($data);
+        //dd($vendaCriada);
 
         $total = 0;
 
@@ -58,6 +59,7 @@ class VendaController extends Controller
             $controllerItemVenda->store($request);
 
             $produto = ProdutoDAO::getById($item['produto_id']);
+            //dd($produto);
             $total += $item['quantidade'] * $produto->preco;
         }
 
@@ -95,7 +97,7 @@ class VendaController extends Controller
 
         $validated = Validator::make($request->all(), [
             'usuario_id' => 'required',
-            'itensVenda' => 'required|array|min:1',
+            'itens_venda' => 'required|array|min:1',
         ]);
 
         //tem que rever o que acontece caso envie um dado inválido quando houver a view pronta
@@ -117,17 +119,50 @@ class VendaController extends Controller
         //     $controllerItemVenda->update($request);
         // }
 
-        $itensTotais = ItemVendaDAO::getAll();
+        $itensNovos = $data['itens_venda'];
+        $itensAntigos = ItemVendaDAO::getByIdVenda($id);
+        //dd($itensAntigos);
 
         $total = 0;
-        foreach($itensTotais as $item){
+        foreach($itensAntigos as $item){
+            //dd($item->venda_id);
             if($item->venda_id == $id){
                 $produto = ProdutoDAO::getById($item->produto_id);
                 $total += $item->quantidade * $produto->preco;
             }
         }
 
-        $idCaixa = $CaixaDAO::getByIdVenda($id)->id;
+        $controllerIV = new ItemVendaController();
+        foreach($itensAntigos as $item){
+            $contApareceu = 0;
+            foreach($itensNovos as $iv){
+                if(isset($iv['id']) && $iv['id'] == $item->id){
+                    $contApareceu++;
+                    $iv['venda_id'] = $id;
+                    $request = new Request($iv);
+                    //dd($request);
+                    $controllerIV->update($request, $item->id);
+                }
+            }
+            if($contApareceu == 0){
+                $controllerIV->delete($item->id);
+            }
+        }
+
+        $total = 0;
+
+        foreach($itensNovos as $item){
+            if(!isset($item['id']) || $item['id'] == null){
+                $item['venda_id'] = $id;
+                $request = new Request($item);
+                $controllerIV->store($request);
+            }
+
+            $produto = ProdutoDAO::getById($item['produto_id']);
+            $total += $item['quantidade'] * $produto->preco;
+        }
+
+        $idCaixa = CaixaDAO::getByIdVenda($id)->id;
 
         $request = new Request([
             'fonte' => 'Venda',
@@ -140,6 +175,7 @@ class VendaController extends Controller
         $controller = new CaixaController();
         $controller->update($request, $idCaixa);
 
+        unset($data['itens_venda']);
         VendaDAO::updateById($id,$data);
     }
 

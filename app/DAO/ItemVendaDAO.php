@@ -8,6 +8,9 @@
         public static function getById($id){
             return ItemVenda::find($id);
         }
+        public static function getByIdVenda($id){
+            return ItemVenda::where('venda_id', $id)->get();
+        }
         public static function getAll(){
             return ItemVenda::all();
         }

@@ -51,6 +51,7 @@ class ItemVendaController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $data = $request->all();
         
         $validated = Validator::make($request->all(), [
@@ -65,7 +66,7 @@ class ItemVendaController extends Controller
                 ->withErrors($validated)
                 ->withInput();
         }
-
+        //dd("aqui");
         if(!ProdutoDAO::getById($data['produto_id'])){
             return redirect()->back()
             ->withErrors(['Produto não encontrado'])
@@ -84,6 +85,8 @@ class ItemVendaController extends Controller
         $novaQuantidade = $data['quantidade'];
         $quantidadeEstoque;
         $controllerProduto = new ProdutoController();
+        //dd($quantidadeExistente);
+        //dd($novaQuantidade);
 
         if($quantidadeExistente > $novaQuantidade){
             $quantidadeEstoque = $quantidadeExistente - $novaQuantidade;
