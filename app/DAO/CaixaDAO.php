@@ -9,6 +9,9 @@
         public static function getById($id){
             return Caixa::find($id);
         }
+        public static function getByIdVenda($id){
+            return Caixa::where('venda_id', $id)->first();
+        }
         public static function getAll(){
             return Caixa::orderBy('id')->get();;
         }

@@ -38,13 +38,15 @@ class CaixaController extends Controller
 
         //Descobre se é entrada ou saída.
         if ($negativo) {
-            $data['tipo'] = "Entrada";
-        } else {
             $data['tipo'] = "Saída";
+        } else {
+            $data['tipo'] = "Entrada";
         }
 
         //Define a fonte como retirada a mão
-        $data['fonte'] = $negativo ? "Entrada a mão" : "Retirada a mão";
+        if (!isset($data['fonte']) || $data['fonte'] === null) {
+            $data['fonte'] = $negativo ? "Retirada a mão" : "Entrada a mão";
+        }
 
         //Define o usuário logado como responsável
         $data['usuario_id'] = session('user')->id;
