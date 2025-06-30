@@ -473,6 +473,16 @@
             itens.forEach((item, index) => {
                 item.classList = "item-lista pg-"+Math.ceil((index+1)/{{ $qtdPorPg }});
             });
+            
+            //Manda os botões de página pra volta pro começo
+            botoesPg.forEach((botao,index) =>{
+                botao.style.display = "none";
+                if(index < 5) botao.style.display = "flex";
+            });
+            if(document.getElementById("goEnd")) {
+                document.getElementById("goEnd").style.display = "flex"
+                document.getElementById("goStart").style.display = "none"
+            }
 
             pgAtual = 1;
             ativarPg(botoesPg[0]);
@@ -486,8 +496,10 @@
         let pgAtual = 1;
 
         //Retira os botões de teleporte pro fim e começo da lista.
-        botoesPg.shift()
-        botoesPg.pop()
+        if(document.getElementById("goEnd")){
+            botoesPg.shift()
+            botoesPg.pop()
+        }
 
         //Atribui o poder de ativar a página selecionada
         Array.from(botoesPg).forEach(botao => {
@@ -520,7 +532,7 @@
         document.getElementById("anterior").addEventListener("click", anterior);
 
         function proximo() {
-            if (document.getElementById("goEnd").style.display != "none") {
+            if (botoesPg[(Math.ceil(pgAtual / 5)) * 5]) {
                 document.getElementById("goStart").style.display = "flex"
 
                 let secao = Math.ceil(pgAtual / 5) - 1;
@@ -539,7 +551,7 @@
         }
 
         function anterior() {
-            if (document.getElementById("goStart").style.display != "none") {
+            if (botoesPg[(Math.ceil(pgAtual / 5) - 1) * 5 - 1]) {
                 document.getElementById("goEnd").style.display = "flex"
 
                 let secao = Math.ceil(pgAtual / 5) - 1;

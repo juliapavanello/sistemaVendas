@@ -14,7 +14,19 @@ class VendaController extends Controller
 {
     public function index()
     {
-        return view("/venda/historicoVendas");
+        $vendas = VendaDAO::getAll();
+        $itensVenda = ItemVendaDAO::getAll();
+        $caixas = CaixaDAO::getAll();
+        $produtos = ProdutoDAO::getAll();
+        $usuarios = [];
+        foreach ($vendas as $venda) {
+            $usuarios[$venda->id] = UserDAO::getById($venda->usuario_id);
+        }
+
+        $qtdPorPg = 7;
+        if ($vendas->count() < 7)
+            $qtdPorPg = $vendas->count();
+        return view("/venda/historicoVendas", compact("vendas", 'usuarios', 'itensVenda', 'caixas','produtos', 'qtdPorPg'));
     }
 
     public function create()
@@ -38,10 +50,10 @@ class VendaController extends Controller
                 ->withInput();
         }
 
-        if(!UserDAO::getById($data['usuario_id'])){
+        if (!UserDAO::getById($data['usuario_id'])) {
             return redirect()->back()
-            ->withErrors(['Usuário não encontrado'])
-            ->withInput();
+                ->withErrors(['Usuário não encontrado'])
+                ->withInput();
         }
 
         $itensVenda = $data['itens_venda'];
@@ -52,7 +64,7 @@ class VendaController extends Controller
 
         $total = 0;
 
-        foreach($itensVenda as $item){
+        foreach ($itensVenda as $item) {
             $controllerItemVenda = new ItemVendaController();
             $item['venda_id'] = $vendaCriada->id;
             $request = new Request($item);
@@ -84,6 +96,8 @@ class VendaController extends Controller
 
         $controllerC = new CaixaController();
         $controllerC->store($requestC);
+
+        return redirect()->route('vendas.index');
     }
 
     public function edit($id)
@@ -107,10 +121,10 @@ class VendaController extends Controller
                 ->withInput();
         }
 
-        if(!UserDAO::getById($data['usuario_id'])){
+        if (!UserDAO::getById($data['usuario_id'])) {
             return redirect()->back()
-            ->withErrors(['Usuário não encontrado'])
-            ->withInput();
+                ->withErrors(['Usuário não encontrado'])
+                ->withInput();
         }
 
         // foreach($data['itens_venda'] as $item){
@@ -124,19 +138,19 @@ class VendaController extends Controller
         //dd($itensAntigos);
 
         $total = 0;
-        foreach($itensAntigos as $item){
+        foreach ($itensAntigos as $item) {
             //dd($item->venda_id);
-            if($item->venda_id == $id){
+            if ($item->venda_id == $id) {
                 $produto = ProdutoDAO::getById($item->produto_id);
                 $total += $item->quantidade * $produto->preco;
             }
         }
 
         $controllerIV = new ItemVendaController();
-        foreach($itensAntigos as $item){
+        foreach ($itensAntigos as $item) {
             $contApareceu = 0;
-            foreach($itensNovos as $iv){
-                if(isset($iv['id']) && $iv['id'] == $item->id){
+            foreach ($itensNovos as $iv) {
+                if (isset($iv['id']) && $iv['id'] == $item->id) {
                     $contApareceu++;
                     $iv['venda_id'] = $id;
                     $request = new Request($iv);
@@ -144,15 +158,15 @@ class VendaController extends Controller
                     $controllerIV->update($request, $item->id);
                 }
             }
-            if($contApareceu == 0){
+            if ($contApareceu == 0) {
                 $controllerIV->delete($item->id);
             }
         }
 
         $total = 0;
 
-        foreach($itensNovos as $item){
-            if(!isset($item['id']) || $item['id'] == null){
+        foreach ($itensNovos as $item) {
+            if (!isset($item['id']) || $item['id'] == null) {
                 $item['venda_id'] = $id;
                 $request = new Request($item);
                 $controllerIV->store($request);
@@ -176,16 +190,18 @@ class VendaController extends Controller
         $controller->update($request, $idCaixa);
 
         unset($data['itens_venda']);
-        VendaDAO::updateById($id,$data);
+        VendaDAO::updateById($id, $data);
+        
+        return redirect()->route('vendas.index');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $itensTotais = ItemVendaDAO::getAll();
         //dd($itensTotais);
-        foreach($itensTotais as $item){
+        foreach ($itensTotais as $item) {
             //dd($item->venda_id);
-            if($item->venda_id == $id){
+            if ($item->venda_id == $id) {
                 $controllerItem = new ItemVendaController();
                 //dd($item->id);
                 $controllerItem->delete($item->id);
@@ -197,5 +213,7 @@ class VendaController extends Controller
         $controller->destroy($idCaixa);
 
         VendaDAO::delete($id);
+
+        return redirect()->back();
     }
 }
