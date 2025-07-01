@@ -219,7 +219,7 @@
                 @foreach($vendas as $item)
                 <div onclick="mostrarVenda({{ $item->id }})" class="item-lista pg-{{ ceil(($i++)/$qtdPorPg) }}" @if($item->id > $vendas[$qtdPorPg-1]->id) style="display: none" @endif>
                     <div class="campo" style="width: 21%; text-align: start;">
-                        <p>{{ $usuarios[$item->id]->nome }}{{ $item->id.' '. $vendas[$qtdPorPg-1]->id }}</p>
+                        <p>{{ $usuarios[$item->id]->nome }}</p>
                     </div>
                     <div class="campo" style="width: 33%; text-align: start;">
                         @php
@@ -319,56 +319,58 @@
                 <div id="venda-vazia" class="venda-estado">
                     <p class="nenhuma">Nenhuma venda selecionada</p>
                 </div>
-                @foreach($vendas as $venda)
-                    <div id="nota-{{ $venda->id }}" class="nota-fiscal oculto">
-                        <!-- Venda preenchida -->
-                        <div id="venda-preenchida" class="venda-estado">
-                            <div class="info-section">
-                                <h3 class="subtitulo2">Informações sobre a venda</h3>
-                                <p class="vendedor">{{ $usuarios[$item->id]->nome }}</p>
-                                <p class="subinfo">Funcionário responsável</p>
-                                <p class="data">{{substr($venda->created_at, 0, 10)}}</p>
-                                <p class="subinfo">Dia da venda</p>
-                                <p class="origem">Venda</p>
-                                <p class="subinfo">Origem da venda</p>
-                            </div>
+                <div style="overflow-y: auto; max-height: 600px">
+                    @foreach($vendas as $venda)
+                        <div id="nota-{{ $venda->id }}" class="nota-fiscal oculto">
+                            <!-- Venda preenchida -->
+                            <div id="venda-preenchida" class="venda-estado">
+                                <div class="info-section">
+                                    <h3 class="subtitulo2">Informações sobre a venda</h3>
+                                    <p class="vendedor">{{ $usuarios[$item->id]->nome }}</p>
+                                    <p class="subinfo">Funcionário responsável</p>
+                                    <p class="data">{{substr($venda->created_at, 0, 10)}}</p>
+                                    <p class="subinfo">Dia da venda</p>
+                                    <p class="origem">Venda</p>
+                                    <p class="subinfo">Origem da venda</p>
+                                </div>
 
-                            <div class="produtos-section">
-                                <h3 class="subtitulo2">Listagem de produtos</h3>
-                                <div class="tabela">
-                                    <div class="linha cabecalho">
-                                        <span>Produto</span>
-                                        <span>Qtd.</span>
-                                    </div>
-                                    @php
-                                        $total = 0;
-                                    @endphp
-                                    @foreach(array_filter($itensVenda->toArray(),function ($item) use ($venda){
-                                        return $item['venda_id'] == $venda->id;
-                                    }) as $itemVenda)
-                                    <div class="linha">
+                                <div class="produtos-section">
+                                    <h3 class="subtitulo2">Listagem de produtos</h3>
+                                    <div class="tabela">
+                                        <div class="linha cabecalho">
+                                            <span>Produto</span>
+                                            <span>Qtd.</span>
+                                        </div>
                                         @php
-                                                $resultado = array_filter($produtos->toArray(), function($produto) use ($itemVenda) {
-                                                    return $produto['id'] == $itemVenda['produto_id'];
-                                                });
-                                                $produto = reset($resultado);
+                                            $total = 0;
+                                        @endphp
+                                        @foreach(array_filter($itensVenda->toArray(),function ($item) use ($venda){
+                                            return $item['venda_id'] == $venda->id;
+                                        }) as $itemVenda)
+                                        <div class="linha">
+                                            @php
+                                                    $resultado = array_filter($produtos->toArray(), function($produto) use ($itemVenda) {
+                                                        return $produto['id'] == $itemVenda['produto_id'];
+                                                    });
+                                                    $produto = reset($resultado);
 
-                                                $total+= $produto['preco']*$itemVenda['quantidade']
-                                            @endphp
-                                        <span>{{ $produto['nome'] }}</span>
-                                        <span>x{{ $itemVenda['quantidade'] }}</span>
+                                                    $total+= $produto['preco']*$itemVenda['quantidade']
+                                                @endphp
+                                            <span>{{ $produto['nome'] }}</span>
+                                            <span>x{{ $itemVenda['quantidade'] }}</span>
+                                        </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
+                                </div>
+
+                                <div class="total">
+                                    <strong>TOTAL R$</strong>
+                                    <span>R$ {{number_format($total, 2, ',', '.'); }}</span>
                                 </div>
                             </div>
-
-                            <div class="total">
-                                <strong>TOTAL R$</strong>
-                                <span>R$ {{number_format($total, 2, ',', '.'); }}</span>
-                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
 
         </div>

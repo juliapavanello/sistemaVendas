@@ -26,31 +26,37 @@ class VendaController extends Controller
         $qtdPorPg = 7;
         if ($vendas->count() < 7)
             $qtdPorPg = $vendas->count();
-        return view("/venda/historicoVendas", compact("vendas", 'usuarios', 'itensVenda', 'caixas','produtos', 'qtdPorPg'));
+        return view("/venda/historicoVendas", compact("vendas", 'usuarios', 'itensVenda', 'caixas', 'produtos', 'qtdPorPg'));
     }
 
     public function create()
     {
-        return view("/venda/createVenda", ["action" => 'create']);
+        $produtos = ProdutoDAO::getAll();
+        $action = 'create';
+        $qtdPorPg = 4;
+        return view("/venda/createVenda", compact("produtos", "qtdPorPg", "action"));
     }
 
     public function store(Request $request)
     {
         $data = $request->all();
+        unset($data['_token']);
+        $data['usuario_id'] = session('user')->id;
 
         $validated = Validator::make($request->all(), [
-            'usuario_id' => 'required',
             'itens_venda' => 'required|array|min:1',
         ]);
 
         //tem que rever o que acontece caso envie um dado inválido quando houver a view pronta
         if ($validated->fails()) {
+            dd('' . $validated->errors());
             return redirect()->back()
                 ->withErrors($validated)
                 ->withInput();
         }
 
         if (!UserDAO::getById($data['usuario_id'])) {
+            dd('' . $validated->errors());
             return redirect()->back()
                 ->withErrors(['Usuário não encontrado'])
                 ->withInput();
@@ -64,15 +70,18 @@ class VendaController extends Controller
 
         $total = 0;
 
-        foreach ($itensVenda as $item) {
-            $controllerItemVenda = new ItemVendaController();
-            $item['venda_id'] = $vendaCriada->id;
-            $request = new Request($item);
-            $controllerItemVenda->store($request);
+        foreach ($itensVenda as $index => $item) {
+            if ($item['quantidade'] > 0) {
+                $controllerItemVenda = new ItemVendaController();
+                $item['produto_id'] = $index;
+                $item['venda_id'] = $vendaCriada->id;
+                $request = new Request($item);
+                $controllerItemVenda->store($request);
 
-            $produto = ProdutoDAO::getById($item['produto_id']);
-            //dd($produto);
-            $total += $item['quantidade'] * $produto->preco;
+                $produto = ProdutoDAO::getById($index);
+                //dd($produto);
+                $total += $item['quantidade'] * $produto->preco;
+            }
         }
 
         // $itensTotais = ItemVendaDAO::getAll();
@@ -191,7 +200,7 @@ class VendaController extends Controller
 
         unset($data['itens_venda']);
         VendaDAO::updateById($id, $data);
-        
+
         return redirect()->route('vendas.index');
     }
 

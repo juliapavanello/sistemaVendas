@@ -487,9 +487,7 @@
             pgAtual = 1;
             ativarPg(botoesPg[0]);
         }
-    </script>
 
-    <script>
         let items = document.getElementsByClassName("item-lista");
         let botoesPg = Array.from(document.getElementsByClassName("pg"));
         let maxPg = Math.ceil((items.length - 1) / {{ $qtdPorPg }});
