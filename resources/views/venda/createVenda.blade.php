@@ -37,6 +37,11 @@
             color: var(--branco);
         }
 
+        .tabela{
+            max-height: 300px;
+            overflow: auto;
+        }
+
         .tabela-produtos {
             width: 100%;
             border-collapse: collapse;
@@ -247,7 +252,7 @@
 
 
         <div class="formulario">
-            <form action="{{ $action == 'edit' ? route('vendas.update', $produto->id) : route('vendas.store')}}"
+            <form action="{{ $action == 'edit' ? route('vendas.update', $venda->id) : route('vendas.store')}}"
                 method="POST">
                 @csrf
                 @if($action == 'edit')
@@ -342,7 +347,7 @@
                                             <p>R$ {{ $item->preco }}</p>
                                         </div>
                                         <div class="campo" style="width: 25%; text-align: start;">
-                                            <input type="number" name="itens_venda[{{ $item->id }}][quantidade]" placeholder="0" class="quantidade-input">
+                                            <input type="number" name="itens_venda[{{ $item->id }}][quantidade]" placeholder="0" value="{{ $item->qtdComprada }}" class="quantidade-input">
                                         </div>
                                         <div class="campo" style="width: 25%;text-align: start;">
                                             <p>R$ 0,00</p>
@@ -420,12 +425,26 @@
                                         <span>Produto</span>
                                         <span>Qtd.</span>
                                     </div>
+                                    @php
+                                        $total = 0;
+                                    @endphp
+                                    @foreach ($produtos as $item)
+                                        @if($item->qtdComprada > 0)
+                                        @php
+                                            $total+= ($item->qtdComprada * $item->preco);
+                                        @endphp
+                                        <div class="linha" id="item-{{ $item->id }}">
+                                            <span>{{ $item->nome }}</span>
+                                            <span>x{{ $item->qtdComprada }}</span>
+                                        </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
 
                             <div class="total">
                                 <strong>TOTAL R$</strong>
-                                <span>0,00</span>
+                                <span>R$ {{ number_format($total, 2, ',', ''); }}</span>
                             </div>
 
                             <div class="botoes">

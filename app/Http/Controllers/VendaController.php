@@ -111,15 +111,33 @@ class VendaController extends Controller
 
     public function edit($id)
     {
-        return view("/venda/createVenda", ["action" => 'edit']);
+        $venda = VendaDAO::getById($id);
+        $itensVenda = ItemVendaDAO::getByIdVenda($id);
+        $produtos = ProdutoDAO::getAll();
+        foreach ($produtos as $index => $item) {
+            $itemComprado = $itensVenda->first(function ($x) use ($item) {
+                return $x->produto_id == $item->id;
+            });
+
+            $qtd = 0;
+            if ($itemComprado) {
+                $qtd = $itemComprado->quantidade;
+            }
+            $item['qtdComprada'] = $qtd;
+        }
+        $action = 'edit';
+        $qtdPorPg = 4;
+        return view("/venda/createVenda", compact("produtos", "qtdPorPg", "action","venda"));
     }
 
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        unset($data['_token']);
+        unset($data['_method']);
+        $data['usuario_id'] = session('user')->id;
 
         $validated = Validator::make($request->all(), [
-            'usuario_id' => 'required',
             'itens_venda' => 'required|array|min:1',
         ]);
 
@@ -129,7 +147,6 @@ class VendaController extends Controller
                 ->withErrors($validated)
                 ->withInput();
         }
-
         if (!UserDAO::getById($data['usuario_id'])) {
             return redirect()->back()
                 ->withErrors(['Usuário não encontrado'])
@@ -174,14 +191,14 @@ class VendaController extends Controller
 
         $total = 0;
 
-        foreach ($itensNovos as $item) {
+        foreach ($itensNovos as $index => $item) {
             if (!isset($item['id']) || $item['id'] == null) {
                 $item['venda_id'] = $id;
                 $request = new Request($item);
                 $controllerIV->store($request);
             }
 
-            $produto = ProdutoDAO::getById($item['produto_id']);
+            $produto = ProdutoDAO::getById($index);
             $total += $item['quantidade'] * $produto->preco;
         }
 
