@@ -4,6 +4,10 @@
 @section('local', $action=='edit' ? 'Alterar produto':'Novo produto')
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/criar.css?v=' . localtime()[0]) }}">
+    <style>/* Largura máxima das etapas */
+.etapa-formulario {
+    max-width: 50%;
+}</style>
 @endsection
 
 @section('content')
