@@ -50,11 +50,7 @@ php artisan key:generate
 
 # 6. Abra o arquivo .env com um editor de texto e configure as credenciais do seu banco PostgreSQL:
 DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=bancosistemavendas
-DB_USERNAME=postgres
-DB_PASSWORD=sua_senha
+
 # Lembre-se: o banco bancosistemavendas precisa existir no seu PostgreSQL antes de rodar os comandos abaixo.
 
 
