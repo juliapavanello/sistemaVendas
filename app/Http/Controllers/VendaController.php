@@ -66,7 +66,6 @@ class VendaController extends Controller
         unset($data['itens_venda']);
 
         $vendaCriada = VendaDAO::create($data);
-        //dd($vendaCriada);
 
         $total = 0;
 
@@ -79,20 +78,9 @@ class VendaController extends Controller
                 $controllerItemVenda->store($request);
 
                 $produto = ProdutoDAO::getById($index);
-                //dd($produto);
                 $total += $item['quantidade'] * $produto->preco;
             }
         }
-
-        // $itensTotais = ItemVendaDAO::getAll();
-
-        // $total = 0;
-        // foreach($itensTotais as $item){
-        //     if($item->venda_id == $vendaCriada->id){
-        //         $produto = ProdutoDAO::getById($item->produto_id);
-        //         $total += $item->quantidade * $produto->preco;
-        //     }
-        // }
 
         $requestC = new Request([
             'usuario_id' => $vendaCriada->usuario_id,
@@ -153,70 +141,43 @@ class VendaController extends Controller
                 ->withInput();
         }
 
-        // foreach($data['itens_venda'] as $item){
-        //     $controllerItemVenda = new ItemVendaController();
-        //     $request = new Request($item);
-        //     $controllerItemVenda->update($request);
-        // }
-
-        $itensNovos = $data['itens_venda'];
-        $itensAntigos = ItemVendaDAO::getByIdVenda($id);
-        //dd($itensAntigos);
-
-        $total = 0;
-        foreach ($itensAntigos as $item) {
-            //dd($item->venda_id);
-            if ($item->venda_id == $id) {
-                $produto = ProdutoDAO::getById($item->produto_id);
-                $total += $item->quantidade * $produto->preco;
+        $itensVenda = ItemVendaDAO::getByIdVenda($id);
+        foreach ($itensVenda as $index => $item) {
+            if($item->venda_id == $id){
+                ItemVendaDAO::delete($item->id);
             }
         }
 
-        $controllerIV = new ItemVendaController();
-        foreach ($itensAntigos as $item) {
-            $contApareceu = 0;
-            foreach ($itensNovos as $iv) {
-                if (isset($iv['id']) && $iv['id'] == $item->id) {
-                    $contApareceu++;
-                    $iv['venda_id'] = $id;
-                    $request = new Request($iv);
-                    //dd($request);
-                    $controllerIV->update($request, $item->id);
-                }
-            }
-            if ($contApareceu == 0) {
-                $controllerIV->delete($item->id);
-            }
-        }
+        $caixaAtual = CaixaDAO::getByIdVenda($id);
+        CaixaDAO::delete($caixaAtual->id);
+
+        $itensVenda = $data['itens_venda'];
+        unset($data['itens_venda']);
 
         $total = 0;
 
-        foreach ($itensNovos as $index => $item) {
-            if (!isset($item['id']) || $item['id'] == null) {
+        foreach ($itensVenda as $index => $item) {
+            if ($item['quantidade'] > 0) {
+                $controllerItemVenda = new ItemVendaController();
+                $item['produto_id'] = $index;
                 $item['venda_id'] = $id;
                 $request = new Request($item);
-                $controllerIV->store($request);
-            }
+                $controllerItemVenda->store($request);
 
-            $produto = ProdutoDAO::getById($index);
-            $total += $item['quantidade'] * $produto->preco;
+                $produto = ProdutoDAO::getById($index);
+                $total += $item['quantidade'] * $produto->preco;
+            }
         }
 
-        $idCaixa = CaixaDAO::getByIdVenda($id)->id;
-
-        $request = new Request([
-            'fonte' => 'Venda',
-            'tipo' => 'Entrada',
-            'dinheiro' => $total,
+        $requestC = new Request([
             'usuario_id' => $data['usuario_id'],
+            'fonte' => 'Venda',
+            'dinheiro' => $total,
             'venda_id' => $id,
         ]);
 
-        $controller = new CaixaController();
-        $controller->update($request, $idCaixa);
-
-        unset($data['itens_venda']);
-        VendaDAO::updateById($id, $data);
+        $controllerC = new CaixaController();
+        $controllerC->store($requestC);
 
         return redirect()->route('vendas.index');
     }
