@@ -28,6 +28,14 @@ class ProdutoController extends Controller
     {
         $data = $request->all();
 
+        $valor = preg_replace('/[^0-9.,]/', '', $data['custo']);
+        $valor = str_replace('.', '', $valor);
+        $data['custo'] = (double) str_replace(',', '.', $valor);
+
+        $valor2 = preg_replace('/[^0-9.,]/', '', $data['preco']);
+        $valor2 = str_replace('.', '', $valor2);
+        $data['preco'] = (double) str_replace(',', '.', $valor2);
+
         //Guarda apenas o inteiro do aviso
         if (preg_match('/\d+/', $data['avisoLeve'], $matches)) {
             $data['avisoLeve'] = (int) $matches[0];
@@ -70,7 +78,16 @@ class ProdutoController extends Controller
             $data['avisoGrave'] = 0;
         }
 
-        ProdutoDAO::create($data);
+        $produtoCriado = ProdutoDAO::create($data);
+
+        $requestC = new Request([
+            'fonte' => 'Produto novo',
+            'dinheiro' => -$produtoCriado->custo,
+            'produto_id' => $produtoCriado->id,
+        ]);
+
+        $controllerC = new CaixaController();
+        $controllerC->store($requestC);
 
         return redirect()->route('produtos.index');
     }
@@ -105,8 +122,10 @@ class ProdutoController extends Controller
         }
 
         //add qtd
+        $negativo = str_contains($data['quantidade'], '-');
         $qtd = (int) $data['quantidade'] ?? 0;
         $data['quantidade'] = $produto->quantidade + $qtd;
+
         if ($data['quantidade'] < 0) {
             $data['quantidade'] = 0;
         }
@@ -144,7 +163,25 @@ class ProdutoController extends Controller
         unset($data['_token']);
         unset($data['_method']);
 
+        $valor = preg_replace('/[^0-9.,]/', '', $data['custo']);
+        $valor = str_replace('.', '', $valor);
+        $data['custo'] = (double) str_replace(',', '.', $valor);
+
+        if(!$negativo){
+            $requestC = new Request([
+                'fonte' => 'Produto adicionado ao estoque',
+                'dinheiro' => -$data['custo'],
+                'produto_id' => $id,
+            ]);
+        }
+
         ProdutoDAO::updateById($id, $data);
+
+
+        if(!$negativo){
+            $controllerC = new CaixaController();
+            $controllerC->store($requestC);
+        }
 
         return redirect()->route('produtos.index');
     }
